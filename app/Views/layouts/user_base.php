@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Real Estate Html Template">
-  <meta name="author" content="">
+  <meta name="description" content="MSGRDC Home Dashboard">
+  <meta name="author" content="Gerard Yabut">
   <meta name="generator" content="Jekyll">
   <title>Dashboard - User</title>
   <!-- Google fonts -->
@@ -38,12 +38,12 @@
   <meta name="twitter:site" content="@">
   <meta name="twitter:creator" content="@">
   <meta name="twitter:title" content="Dashboard">
-  <meta name="twitter:description" content="Real Estate Html Template">
+  <meta name="twitter:description" content="MSG-homes">
   <meta name="twitter:image" content="<?= base_url('theme/images/homeid-social-logo.png'); ?>">
   <!-- Facebook -->
   <meta property="og:url" content="<?= base_url('theme/dashboard.html'); ?>">
   <meta property="og:title" content="Dashboard">
-  <meta property="og:description" content="Real Estate Html Template">
+  <meta property="og:description" content="MSG-homes">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= base_url('theme/images/homeid-social.png'); ?>">
   <meta property="og:image:type" content="image/png">

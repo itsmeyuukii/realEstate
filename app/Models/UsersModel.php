@@ -3,18 +3,9 @@
 namespace App\Models;
 use CodeIgniter\Model;
 
-class UsersModel extends Model {
-    public function getData()
-    {
-        $subjects = [
-            ['subject' => 'HTML', 'abbr' => 'Hyper Text Markup Language'],
-            ['subject' => 'CSS', 'abbr' => 'Cascading Style Sheet'],
-            ['subject' => 'JSON', 'abbr' => 'JavaScript Object Notation'],
-            ['subject' => 'AJAX', 'abbr' => 'Asynchronus JavaScript and XML'],
-            ['subject' => 'PHP', 'abbr' => 'Hypertext Reprocessor'],
-        ];
-        return $subjects;
-    }
+class UsersModel extends Model 
+{
+    
     public function getUsersList()
     {
         $db = \Config\Database::connect();

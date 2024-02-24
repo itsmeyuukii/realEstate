@@ -74,7 +74,7 @@
 				var $this = $(this);
 				var format = new Intl.NumberFormat('en-US', {
 					style: 'currency',
-					currency: 'USD',
+					currency: 'PHP',
 					minimumFractionDigits: 0,
 				});
 				var options = $this.data('slider-options');

@@ -16,6 +16,14 @@ class LocationModel extends Model
         // die();
         return $query->getResult();
     }
+    public function selectRegion($id)
+    {
+        $builder = $this->db->table('region');
+        $builder->where('id', $id);
+        $result = $builder->get()->getRow(); // Use getRow() to retrieve a single row
+
+        return $result;
+    }
 
     public function selectProvince($id)
     {
@@ -33,5 +41,6 @@ class LocationModel extends Model
 
         return $result;
     }
+
 
 }

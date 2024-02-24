@@ -1,34 +1,5 @@
-<!-- LOGIN/Register MODAL START-->
-<div class="modalContent" id="modalContent">
-    <div class="mainModal">
-        <input type="checkbox" id="chk" aria-hidden="true">
-        <div class="close-btn" onclick="document.getElementById('modalContent').style.display = 'none'">&times;</div>
 
-        <!-- Register -->
-        <div class="signup">
-            <?= form_open('register'); ?>
-            <label class="label" for="chk" aria-hidden="true">Signup</label>
-            <input class="input" type="text" name="username" placeholder="User name" required="">
-            <input class="input" type="email" name="email" placeholder="Email" required="">
-            <input class="input" type="password" name="pass" placeholder="Password" required="">
-            <input class="input" type="password" name="cpass" placeholder="Confirm Password" required="">
-            <button type="submit" name="register" class="button">Signup</button>
-            <?= form_close(); ?>
-        </div>
-        <!-- Login -->
-        <div class="login">
-
-            <label class="label" for="chk" aria-hidden="true">Login</label>
-            <input class="input" type="email" name="email" placeholder="Email" required="">
-            <input class="input" type="password" name="pass" placeholder="Password" required="">
-            <button type="submit" name="login" class="button">Login</button>
-
-        </div>
-    </div>
-</div>
-
-
-<!-- LOGIN/Register MODAL END-->
+<!-- LOGIN/Register MODAL Start-->
 <div class="modal fade login-register login-register-modal" id="login-register-modal" tabindex="-1" role="dialog"
     aria-labelledby="login-register-modal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered mxw-571" role="document">
@@ -70,8 +41,8 @@
                                         id="inputGroup-sizing-lg">
                                         <i class="far fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control border-0 shadow-none fs-13" id="username"
-                                    name="email" required placeholder="Your email">
+                                <input type="text" class="form-control border-0 shadow-none fs-13" id="email"
+                                    name="email" autocomplete="off" required placeholder="Your email">
                             </div>
                         </div>
                         <div class="form-group mb-4">
@@ -127,11 +98,7 @@
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
                             </div>
-                            <div class="col-4 px-2 mb-4">
-                                <a href="#" class="btn btn-lg btn-block google px-0">
-                                    <img src="<?= base_url('theme/images/google.png') ?>" alt="Google">
-                                </a>
-                            </div>
+                            <?= $googleButton ?>
                             <div class="col-4 px-2 mb-4">
                                 <a href="#" class="btn btn-lg btn-block twitter text-white px-0">
                                     <i class="fab fa-twitter"></i>
@@ -151,7 +118,7 @@
                                         <i class="far fa-address-card"></i></span>
                                 </div>
                                 <input type="text" class="form-control border-0 shadow-none fs-13" id="full-name"
-                                    name="username" required placeholder="Full name">
+                                    name="username" autocomplete="off" required placeholder="Full name">
                             </div>
                         </div>
                         <div class="form-group mb-4">
@@ -162,7 +129,7 @@
                                         <i class="far fa-user"></i></span>
                                 </div>
                                 <input type="text" class="form-control border-0 shadow-none fs-13" id="username"
-                                    name="email" required placeholder="Your email">
+                                    name="email" autocomplete="off" required placeholder="Your email">
                             </div>
                         </div>
                         <div class="form-group mb-4">
@@ -184,7 +151,7 @@
                             <p class="form-text">Minimum 8 characters with 1 number and 1 letter</p>
                         </div>
                         <div class="form-group mb-4">
-                            <label for="cpassword" class="sr-only">Confirm Password</label>
+                            <label for="cpass" class="sr-only">Confirm Password</label>
                             <div class="input-group input-group-lg">
                                 <div class="input-group-prepend ">
                                     <span class="input-group-text bg-gray-01 border-0 text-muted fs-18">

@@ -1,4 +1,5 @@
 /*$navbar-padding-y: 1.5rem;
+
 $navbar-padding-x: 0;
 
 $nav-link-padding-y: 1rem;
@@ -75,6 +76,7 @@ body {
   text-align: left;
   background-color: #fff;
 }
+
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
@@ -17819,7 +17821,7 @@ a.text-indigo:hover, a.text-indigo:focus {
 }
 
 .partners .item {
-  max-height: 85px;
+  max-height: 100%;
 }
 
 .partners .item .image {
@@ -22897,3 +22899,7 @@ button:focus {
 }
 
 /*# sourceMappingURL=themes.css.map */
+.img-custom {
+  position: relative;
+  height: auto;
+}

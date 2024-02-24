@@ -5,30 +5,34 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Real Estate Html Template">
-  <meta name="author" content="">
+  <meta name="author" content="Gyabut">
   <meta name="generator" content="Jekyll">
-  <title>Dashboard - HomeID</title>
+  <title>Dashboard - Admin</title>
   <!-- Google fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
     rel="stylesheet">
   <!-- Vendors CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/fontawesome-pro-5/css/all.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/bootstrap-select/css/bootstrap-select.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/slick/slick.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/magnific-popup/magnific-popup.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/jquery-ui/jquery-ui.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/chartjs/Chart.min.css'); ?>">
-  <link rel="stylesheet" href="<?= base_url('theme/vendors/dropzone/css/dropzone.min.css'); ?>">
+  <!-- <link rel="stylesheet" href="<?= base_url('theme/vendors/dropzone/css/dropzone.css'); ?>"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/animate.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/timepicker/bootstrap-timepicker.min.css'); ?>">
   <link rel="stylesheet" href="<?= base_url('theme/vendors/mapbox-gl/mapbox-gl.min.css'); ?>">
-  <link rel="stylesheet" href="<?= base_url('theme/vendors/dataTables/jquery.dataTables.min.css'); ?>">
+  <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+  <!-- <link rel="stylesheet" href="<?= base_url('theme/vendors/dataTables/jquery.dataTables.min.css'); ?>"> -->
 
   <!-- Themes core CSS -->
   <link rel="stylesheet" href="<?= base_url('theme/css/themes.css'); ?>">
   <!-- Favicons -->
   <link rel="icon" href="<?= base_url('theme/images/favicon.ico'); ?>">
+  
   <!-- Twitter -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:site" content="@">
@@ -46,6 +50,8 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <!-- script -->
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
 </head>
 
 <body>
@@ -72,8 +78,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                       <a class="dropdown-item" href="#">My Profile</a>
-                      <a class="dropdown-item" href="#">My Profile</a>
-                      <a class="dropdown-item" href="#">Logout</a>
+                      <a class="dropdown-item" href="<?=base_url('dashboard/logout') ?>">Logout</a>
                     </div>
                   </div>
                   <div class="dropdown no-caret py-4 px-3 d-flex align-items-center notice mr-3">
@@ -102,8 +107,10 @@
                   <h5 class="fs-13 letter-spacing-087 text-muted mb-3 text-uppercase px-3">Main</h5>
                   <ul class="list-group list-group-no-border rounded-lg">
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                      <a href="<?=base_url('dashboard') ?>" class="text-heading lh-1 sidebar-link">
-                        <span class="sidebar-item-icon d-inline-block mr-3 fs-20"><i class="fal fa-cog"></i></span>
+                      <a href="<?=base_url('admin/dashboard') ?>" class="text-heading lh-1 sidebar-link">
+                        <span class="sidebar-item-icon d-inline-block mr-3 fs-20">
+                          <i class="fal fa-cog"></i>
+                        </span>
                         <span class="sidebar-item-text">Dashboard</span>
                       </a>
                     </li>
@@ -113,12 +120,12 @@
                   <h5 class="fs-13 letter-spacing-087 text-muted mb-3 text-uppercase px-3">Manage Listings</h5>
                   <ul class="list-group list-group-no-border rounded-lg">
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                      <a href="<?= base_url('addpropertystaging'); ?>" class="text-heading lh-1 sidebar-link">
+                      <a href="<?= base_url('addpropertystaging?session_id=' . uniqid()); ?>" class="text-heading lh-1 sidebar-link">
                         <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20 fs-20">
                           <svg class="icon icon-add-new">
                             <use xlink:href="#icon-add-new"></use>
                           </svg></span>
-                        <span class="sidebar-item-text">Add new</span>
+                        <span class="sidebar-item-text">Add new Property</span>
                       </a>
                     </li>
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
@@ -129,80 +136,115 @@
                           </svg>
                         </span>
                         <span class="sidebar-item-text">Property List</span>
-                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold">29</span>
+                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold"></span>
                       </a>
                     </li>
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                      <a href="dashboard-my-favorites.html"
-                        class="text-heading lh-1 sidebar-link d-flex align-items-center">
+                      <a href="<?=base_url('property-sell') ?>" class="text-heading lh-1 sidebar-link d-flex align-items-center">
                         <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
-                          <svg class="icon icon-heart">
-                            <use xlink:href="#icon-heart"></use>
+                          <svg class="icon icon-e5">
+                            <use xlink:href="#icon-e5"></use>
                           </svg>
                         </span>
-                        <span class="sidebar-item-text">My Favorites</span>
-                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold">5</span>
-                      </a>
-                    </li>
-
-                    <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                      <a href="dashboard-reviews.html" class="text-heading lh-1 sidebar-link d-flex align-items-center">
-                        <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
-                          <svg class="icon icon-review">
-                            <use xlink:href="#icon-review"></use>
-                          </svg>
-                        </span>
-                        <span class="sidebar-item-text">Reviews</span>
-                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold">29</span>
+                        <span class="sidebar-item-text">Property Sell</span>
+                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold"></span>
                       </a>
                     </li>
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                      <a href="#invoice_collapse" class="text-heading lh-1 sidebar-link d-flex align-items-center"
-                        data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+                      <a href="<?=base_url('inquiry-list') ?>" class="text-heading lh-1 sidebar-link d-flex align-items-center">
                         <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
-                          <i class="fal fa-file-invoice"></i>
+                          <i class="fal fa-question-circle"></i>
                         </span>
-                        <span class="sidebar-item-text">Invoice</span>
-                        <span class="d-inline-block ml-auto"><i class="fal fa-angle-down"></i></span>
+                        <span class="sidebar-item-text">Inquiry List</span>
+                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold"></span>
                       </a>
                     </li>
                   </ul>
-                  <div class="collapse" id="invoice_collapse">
-                    <div class="card card-body border-0 bg-transparent py-0 pl-6">
-                      <ul class="list-group list-group-flush list-group-no-border">
-                        <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                          <a class="text-heading lh-1 sidebar-link" href="dashboard-invoice-listing.html">Listing
-                            Invoice</a>
-                        </li>
-                        <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                          <a class="text-heading lh-1 sidebar-link" href="dashboard-add-new-invoice.html">Add New
-                            Invoice</a>
-                        </li>
-                        <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                          <a class="text-heading lh-1 sidebar-link" href="dashboard-edit-invoice.html">Edit
-                            Invoice</a>
-                        </li>
-                        <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                          <a class="text-heading lh-1 sidebar-link" href="dashboard-preview-invoice.html">Preview
-                            Invoice</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
                 </li>
+                <li class="list-group-item pt-6 pb-4">
+                  <h5 class="fs-13 letter-spacing-087 text-muted mb-3 text-uppercase px-3">Content Management System</h5>
+                  <ul class="list-group list-group-no-border rounded-lg">
+                    <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                      <a href="<?= base_url('cms/pagelist') ?>"
+                        class="text-heading lh-1 sidebar-link d-flex align-items-center">
+                        <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
+                          <i class="fa fa-house-signal"></i>
+                        </span>
+                        <span class="sidebar-item-text">Home Page</span>
+                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold">5</span>
+                      </a>
+                    </li>
+                    <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                      <a href="<?= base_url('admin/inquiries') ?>" class="text-heading lh-1 sidebar-link">
+                        <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
+                          <i class="fa fa-wrench"></i>
+                        </span>
+                        <span class="sidebar-item-text">Services</span>
+                      </a>
+                    </li>
+                    <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                      <a href="<?= base_url('cms/blog/list'); ?>" class="text-heading lh-1 sidebar-link">
+                        <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
+                          <i class="fa fa-newspaper"></i>
+                        </span>
+                        <span class="sidebar-item-text">News & Events</span>
+                      </a>
+                    </li>
+                    <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                        <a href="#about_collapse"
+                            class="text-heading lh-1 sidebar-link d-flex align-items-center"
+                            data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+                          <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
+                            <i class="fa fa-users"></i>
+                          </span>
+                          <span class="sidebar-item-text">About Us</span>
+                          <span class="d-inline-block ml-auto"><i class="fal fa-angle-down"></i></span>
+                        </a>
+                      </li>
+                  </ul>
+                </li>
+                <!-- Collapsible for About Us -->
+                <div class="collapse" id="about_collapse">
+                  <div class="card card-body border-0 bg-transparent py-0 pl-6">
+                    <ul class="list-group list-group-flush list-group-no-border">
+                      <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                        <a class="text-heading lh-1 sidebar-link"
+                            href="<?= base_url('affiliate') ?>">Affilliate & Partners</a>
+                      </li>
+                      <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                        <a class="text-heading lh-1 sidebar-link"
+                                    href="#">Commendation</a>
+                      </li>
+                      <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                        <a class="text-heading lh-1 sidebar-link" href="#">Our Company</a>
+                      </li>
+                      <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                        <a class="text-heading lh-1 sidebar-link"
+                                    href="<?= base_url('cms/aboutus/employeelist') ?>">Our People</a>
+                      </li>
+                      <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                        <a class="text-heading lh-1 sidebar-link"
+                                    href="#">Client Testimonials</a>
+                      </li>
+                      <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                        <a class="text-heading lh-1 sidebar-link"
+                                    href="#">Careers</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 <li class="list-group-item pt-6 pb-4">
                   <h5 class="fs-13 letter-spacing-087 text-muted mb-3 text-uppercase px-3">Manage Acount</h5>
                   <ul class="list-group list-group-no-border rounded-lg">
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                      <a href="dashboard-my-packages.html"
+                      <a href="<?= base_url('admin/list') ?>"
                         class="text-heading lh-1 sidebar-link d-flex align-items-center">
                         <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
                           <svg class="icon icon-my-package">
                             <use xlink:href="#icon-my-package"></use>
                           </svg>
                         </span>
-                        <span class="sidebar-item-text">My Package</span>
-                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold">5</span>
+                        <span class="sidebar-item-text">Admin Management</span>
                       </a>
                     </li>
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
@@ -216,13 +258,13 @@
                       </a>
                     </li>
                     <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
-                      <a href="#" class="text-heading lh-1 sidebar-link">
+                      <a href="<?=base_url('dashboard/logout') ?>" class="text-heading lh-1 sidebar-link">
                         <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
                           <svg class="icon icon-log-out">
                             <use xlink:href="#icon-log-out"></use>
                           </svg>
                         </span>
-                        <span class="sidebar-item-text">Log Out</span>
+                        <span class="sidebar-item-text">LogOut</span>
                       </a>
                     </li>
                   </ul>
@@ -244,16 +286,15 @@
                     class="dropdown-toggle text-heading pr-3 pr-sm-6 d-flex align-items-center justify-content-end"
                     data-toggle="dropdown">
                     <div class="mr-4 w-48px">
-                      <img src="<?= base_url('theme/images/testimonial-5.jpg'); ?>" alt="Ronald Hunter"
+                      <img src="<?= base_url('theme/images/alt/avatar.png'); ?>" alt="Ronald Hunter"
                         class="rounded-circle">
                     </div>
                     <div class="fs-13 font-weight-500 lh-1">
-                      Ronald Hunter
+                      <?= $userdata->username ?>
                     </div>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right w-100">
-                    <a class="dropdown-item" href="dashboard-my-profiles.html">My Profile</a>
-                    <a class="dropdown-item" href="#">Logout</a>
+                    <a class="dropdown-item" href="<?=base_url('dashboard/logout') ?>">Logout</a>
                   </div>
                 </div>
                 <div class="dropdown no-caret py-3 px-3 px-sm-6 d-flex align-items-center justify-content-end notice">
@@ -278,9 +319,10 @@
     </div>
   </div>
   <!-- CDN jquery -->
-  <!-- <script src="https://code.jquery.com/jquery-3.7.0.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
   <!-- Vendors scripts -->
-  <script src="<?= base_url('theme/vendors/jquery.min.js'); ?>"></script>
+  <!-- <script src="<?= base_url('theme/vendors/jquery.min.js'); ?>"></script> -->
   <script src="<?= base_url('theme/vendors/jquery-ui/jquery-ui.min.js'); ?>"></script>
   <script src="<?= base_url('theme/vendors/bootstrap/bootstrap.bundle.js'); ?>"></script>
   <script src="<?= base_url('theme/vendors/bootstrap-select/js/bootstrap-select.min.js'); ?>"></script>
@@ -289,14 +331,16 @@
   <script src="<?= base_url('theme/vendors/counter/countUp.js'); ?>"></script>
   <script src="<?= base_url('theme/vendors/magnific-popup/jquery.magnific-popup.min.js'); ?>"></script>
   <script src="<?= base_url('theme/vendors/chartjs/Chart.min.js'); ?>"></script>
-  <script src="<?= base_url('theme/vendors/dropzone/js/dropzone.min.js'); ?>"></script>
+  <!-- <script src="<?= base_url('theme/vendors/dropzone/js/dropzone.js'); ?>"></script> -->
   <script src="<?= base_url('theme/vendors/timepicker/bootstrap-timepicker.min.js'); ?>"></script>
   <script src="<?= base_url('theme/vendors/hc-sticky/hc-sticky.min.js'); ?>"></script>
   <script src="<?= base_url('theme/vendors/jparallax/TweenMax.min.js'); ?>"></script>
   <script src="<?= base_url('theme/vendors/mapbox-gl/mapbox-gl.js'); ?>"></script>
-  <script src="<?= base_url('theme/vendors/dataTables/jquery.dataTables.min.js'); ?>"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <!-- <script src="<?= base_url('theme/vendors/dataTables/jquery.dataTables.min.js'); ?>"></script> -->
 
   <script src="<?= base_url('theme/js/script.js'); ?>"></script>
+ 
   <!-- Theme scripts -->
   <script src="<?= base_url('theme/js/theme.js'); ?>"></script>
 

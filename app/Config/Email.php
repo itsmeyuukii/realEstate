@@ -33,12 +33,12 @@ class Email extends BaseConfig
     /**
      * SMTP Username
      */
-    public string $SMTPUser = 'gerardyabut.msgrdc@gmail.com';
+    public string $SMTPUser = 'No-reply@msg-homes.com';
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = 'jxma buti yaoi kwhd'; // use two authentication password in google settings App Password
+    public string $SMTPPass = '2024@NoreplyMsg'; // use two authentication password in google settings App Password
 
     /**
      * SMTP Port

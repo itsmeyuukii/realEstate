@@ -47,9 +47,9 @@
             
         </ul>
         <?php if (session()->getTempdata('error')): ?>
-                                <div class="alert alert-danger">
-                                    <?= session()->getTempdata('error'); ?>
-                                </div>
+                                    <div class="alert alert-danger">
+                                        <?= session()->getTempdata('error'); ?>
+                                    </div>
                         <?php endif; ?>
         <div class="tab-content shadow-none p-0">
             <?= form_open_multipart(); ?>
@@ -87,6 +87,12 @@
                                                 </label>
                                                 <input type="text" class="form-control form-control-lg border-0" id="p_title" name="p_title">
                                             </div>
+                                            <div class="form-group">
+                                                <label for="p_code" class="text-heading">Property Code</label>
+                                                    <span class="text-muted">(mandatory)</span>
+                                                <input type="text" class="form-control form-control-lg border-0"
+                                                        id="p_code" name="p_code">
+                                            </div>
                                             <div class="form-group mb-0">
                                                 <label class="text-heading">Description</label>
                                                 <textarea class="form-control border-0" rows="5"name="p_desc"  id="textcontent"></textarea>
@@ -104,7 +110,7 @@
                                                 <label for="p_type" class="text-heading">Property Type</label>
                                                 <select class="form-control border-0 shadow-none form-control-lg selectpicker" title="Select"
                                                         id="p_type" name="p_type">
-                                                    <option value="House and Lot">House and Lot</option>
+                                                    <option value="House">House and Lot</option>
                                                     <option value="Lot">Lot</option>
                                                     <option value="Condominium">Condominium</option>
                                                     <option value="TownHouse">TownHouse</option>
@@ -273,75 +279,74 @@
                     <div id="media-collapse" class="collapse collapsible"
                             aria-labelledby="heading-media"
                             data-parent="#collapse-tabs-accordion">
-                    <div class="card-body py-4 py-md-0 px-0">
-                        <div class="row">
-                        <div class="col-lg-6">
-                            <div class="card mb-6">
-                                <div class="card-body p-6">
-                                    <h3 class="card-title mb-0 text-heading fs-22 lh-15">Upload photos
-                                    of your property</h3>
-                                    <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit</p>
-                                    <div class="dropzone upload-file text-center py-5"
-                                        data-uploader="true"
-                                        id="myDropzone"
-                                        data-uploader-url="<?= base_url('uploadfiles'); ?>">
-                                    <div class="dz-default dz-message">
-                                        <span class="upload-icon lh-1 d-inline-block mb-4">
-                                            <i class="fal fa-cloud-upload-alt"></i></span>
-                                        <p class="text-heading fs-22 lh-15 mb-4">Drag and drop image
-                                        or</p>
-                                        <button class="btn btn-indigo px-7 mb-2" type="button">
-                                        Browse file
-                                        </button>
-                                        <input type="file" name="images[]" multiple hidden>
-                                        <p>Photos must be JPEG or PNG format and least
-                                        1024x768</p>
-                                    </div>
+                        <div class="card-body py-4 py-md-0 px-0">
+                            <div class="row">
+                            <div class="col-lg-6">
+                                <div class="card mb-6">
+                                    <div class="card-body p-6">
+                                        <h3 class="card-title mb-0 text-heading fs-22 lh-15">Upload photos
+                                        of your property</h3>
+                                        <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing elit</p>
+                                        <div class="dropzone text-center py-5"
+                                            action = "<?= base_url('dropzone/upload') ?>"
+                                            method = "POST"
+                                            enctype="multipart/form-data"
+                                            id='image-upload'>
+                                            <div class="dz-default dz-message">
+                                                <span class="upload-icon lh-1 d-inline-block mb-4">
+                                                    <i class="fal fa-cloud-upload-alt"></i></span>
+                                                <p class="text-heading fs-22 lh-15 mb-4">Drag and drop image
+                                                or</p>
+                                                <button class="btn btn-indigo px-7 mb-2" type="button">
+                                                Browse file
+                                                </button>
+                                                <p>Photos must be JPEG or PNG format and least
+                                                1024x768</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="card mb-6">
-                            <div class="card-body p-6">
-                                <h3 class="card-title mb-0 text-heading fs-22 lh-15">Video
-                                Option</h3>
-                                <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit</p>
-                                <div class="form-row mx-n2">
-                                <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
-                                    <div class="form-group mb-md-0">
-                                    <label class="text-heading">Video
-                                        from Youtube</label>
+                            <div class="col-lg-6">
+                                <div class="card mb-6">
+                                    <div class="card-body p-6">
+                                        <h3 class="card-title mb-0 text-heading fs-22 lh-15">Video
+                                        Option</h3>
+                                        <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
+                                        adipiscing elit</p>
+                                        <div class="form-row mx-n2">
+                                        <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
+                                            <div class="form-group mb-md-0">
+                                            <label class="text-heading">Video
+                                                from Youtube</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
+                                            <div class="form-group mb-md-0">
+                                                <label for="embed_link" class="text-heading">Embed Video id</label>
+                                                <input type="text" name="embed_link"
+                                                        class="form-control form-control-lg border-0"
+                                                        id="embed_link">
+                                            </div>
+                                        </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
-                                    <div class="form-group mb-md-0">
-                                        <label for="embed_link" class="text-heading">Embed Video id</label>
-                                        <input type="text" name="embed_link"
-                                                class="form-control form-control-lg border-0"
-                                                id="embed_link">
-                                    </div>
-                                </div>
                                 </div>
                             </div>
                             </div>
-                            
+                            <div class="d-flex flex-wrap">
+                            <a href="#"
+                                        class="btn btn-lg bg-hover-white border rounded-lg mb-3 mr-auto prev-button">
+                                <span class="d-inline-block text-primary mr-2 fs-16"><i
+                                                class="fal fa-long-arrow-left"></i></span>Prev step
+                            </a>
+                            <button class="btn btn-lg btn-primary next-button mb-3">Next step
+                                <span class="d-inline-block ml-2 fs-16"><i
+                                                class="fal fa-long-arrow-right"></i></span>
+                            </button>
+                            </div>
                         </div>
-                        </div>
-                        <div class="d-flex flex-wrap">
-                        <a href="#"
-                                    class="btn btn-lg bg-hover-white border rounded-lg mb-3 mr-auto prev-button">
-                            <span class="d-inline-block text-primary mr-2 fs-16"><i
-                                            class="fal fa-long-arrow-left"></i></span>Prev step
-                        </a>
-                        <button class="btn btn-lg btn-primary next-button mb-3">Next step
-                            <span class="d-inline-block ml-2 fs-16"><i
-                                            class="fal fa-long-arrow-right"></i></span>
-                        </button>
-                        </div>
-                    </div>
                     </div>
                 </div>
                 </div>
@@ -377,9 +382,9 @@
                                                             title="Select" data-style="btn-lg py-2 h-52"
                                                             id="country" name="region_id">
                                                             <?php foreach ($regions as $region): ?>
-                                                                <option value="<?= $region->id ?>">
-                                                                    <?= $region->region_name ?>
-                                                                </option>
+                                                                    <option value="<?= $region->id ?>">
+                                                                        <?= $region->region_name ?>
+                                                                    </option>
                                                             <?php endforeach; ?>
                                                     </select>
                                                 </div>
@@ -492,13 +497,6 @@
                                                 id="lot_area" name="lot_area">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="form-group">
-                                        <label for="p_code" class="text-heading">Property Code</label>
-                                        <input type="text" class="form-control form-control-lg border-0"
-                                                id="p_code" name="p_code">
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4">
@@ -548,10 +546,62 @@
     </div>
 </main>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
 
 <script src="<?= base_url('theme/js/tinymce/tinymce.min.js'); ?>"></script>
+<script type="text/javascript">
+tinymce.init({
+        selector: '#textcontent'
+    });
+
+    Dropzone.options.imageUpload = {
+        maxFilesize: 256,
+        acceptedFiles: ".jpeg,.jpg,.png,.gif",
+        addRemoveLinks: true,
+        init: function () {
+            var myDropzone = this;
+
+            this.on("success", function (file, response) {
+                response = jQuery.parseJSON(response);
+
+                if (response.status == 1) {
+                    // Add attribute to the remove button
+                    $(file.previewTemplate).find('.dz-remove').attr('data-filename', response.filename);
+                }
+            });
+
+            this.on("removedfile", function (file) {
+                var imageName = $(file.previewTemplate).find('.dz-remove').attr('data-filename');
+
+                console.log('Deleting image with filename:', imageName);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= base_url('dropzone/remove') ?>',
+                    data: {
+                        filename: imageName
+                    },
+                    success: function (data) {
+                        var response = JSON.parse(data);
+                        if (response.status == 1) {
+                            console.log(response.message);
+                            // Optionally, you can display a success message to the user
+                        } else {
+                            console.error(response.message);
+                            // Optionally, you can display an error message to the user
+                        }
+                    },
+                    error: function (error) {
+                        console.error('Error deleting image:', error);
+                        // Optionally, you can display an error message to the user
+                    }
+                });
+            });
+        }
+    };
+</script>
 
 <script>
     // Attach event listener for region dropdown
@@ -566,7 +616,7 @@
 
     function fetchRegionData(regionId) {
         $.ajax({
-            url: "<?= base_url("addproperty/province") ?>",
+            url: "<?= base_url("propertylist/province") ?>",
             method: "POST",
             data: {
                 rId: regionId
@@ -578,7 +628,7 @@
     };
     function fetchProvinceData(provinceId) {
         $.ajax({
-            url: "<?= base_url("addproperty/municipality") ?>",
+            url: "<?= base_url("propertylist/municipality") ?>",
             method: "POST",
             data: {
                 pId: provinceId

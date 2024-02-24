@@ -9,7 +9,7 @@ class Testmail extends Controller
     public function index()
     {
 
-        $to = 'dancadavedo.msgrdc@gmail.co';
+        $to = '';
         $subject = 'Account Activation-Testmail';
         $message = 'Hi Gerard, <br><br> Thanks, Your account is Successfully Created. Please Click the link below to activate your Account <br>'
             . '<a href="' . base_url() . '/testmail/verify" target = "_blank">Activate Now</a><br><br>Thanks<br>Team.';

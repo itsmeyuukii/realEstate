@@ -58,11 +58,12 @@ class Register extends Controller
                             . "<a href='".base_url()."register/activate/".$uniid."'>Activate Now</a><br><br>Thanks,<br>Team.";
 
                     $this->email->setTo($to);
-                    $this->email->setFrom('gerardyabut.msgrdc@gmail.com', 'Info');
+                    $this->email->setFrom('No-reply@msg-homes.com', 'Info');
                     // $email->setCC();   //you can also use this
                     // $email->setBCC();  //you can also use this
                     $this->email->setSubject($subject);
                     $this->email->setMessage($message);
+                    $this->email->setMailType('html');
                     // $filepath = 'public/assets/images/1.png';  //to attach file 
                     // $email->attach($filepath);
                     if ($this->email->send()) {
@@ -83,7 +84,7 @@ class Register extends Controller
                 $data['validation'] = $this->validator;
             }
         }
-        return view("homeview", $data);
+        return redirect()->to(base_url());
     }
 
         // Account activation

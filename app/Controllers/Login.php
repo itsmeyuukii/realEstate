@@ -6,62 +6,30 @@ use CodeIgniter\Controller;
 use CodeIgniter\Validation\Rules;
 use App\Models\LoginModel;
 use App\Models\HomeModel;
+use App\Models\GoogleLoginModel;
 
 class Login extends Controller{
+    protected $gModel;
     protected $loginModel;
     protected $session;
     protected $homeModel;
     public function __construct()
     {
         helper ('form');
+        helper('google');
         $this->loginModel = new LoginModel();
         $this->session = \Config\Services::session();
         $this->homeModel = new HomeModel();
+        $this->gModel = new GoogleLoginModel();
+        
+        $this->googleClient = instantiateGoogleClient();
+       
+
     }
     public function index()
     {
         $data = [];
         $data['validation'] = null;
-        $page_id = 1;
-        $data['page_title'] = $this->homeModel->getPageTitle($page_id);
-
-        //Google Sign in
-        // require_once APPPATH."libraries/vendor/autoload.php";
-        // $google_client = new \Google_Client();
-        // $google_client->setClientId('375542693726-10i3m2vmbpv3ca3c9mcpebg83ff9ci2e.apps.googleusercontent.com');
-        // $google_client->setClientSecret('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');
-
-        // $google_client->setRedirectUri(base_url('login.php'));
-        // $google_client->addScope('email');
-        // $google_client->addScope('profile');
-
-        // if ($this->request->getVar('code'))
-        // {
-        //     $token = $google_client->fetchAccesTokenWithAuthCode($this->request->getVar('code'));
-        //     if(!isset($token['error']))
-        //     {
-        //         $google_client->setAccessToken($token->access_token);
-        //         $this->session->set('access_token', $token->access_token);
-        //         //to get the profile data
-        //         $google_service = new \Google_Service_Oauth2($google_client);
-        //         $data = $google_service->userinfo->get();
-
-        //         if ($this->loginModel->google_user_exists($data))
-        //         {
-
-        //         }
-        //         else
-        //         {
-
-        //         }
-        //     }
-        // }
-        // if(!$this->session->get('access_token'))
-        // {
-        //     $data['loginButton'] = $google_client->createAuthUrl();
-        // }
-
-
         // Login button
         if($this->request->getMethod() == 'post')
         {
@@ -117,8 +85,52 @@ class Login extends Controller{
                 $data['validation'] = $this->validator;
             }
         }
-        return view("homeview", $data);
+
+    
+        return view("layouts/home_base", $data);
     }
+    public function loginWithGoogle()
+    {
+        $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+        if(!isset($token['error']))
+        {
+            $this->googleClient->setAccessToken($token['access_token']);
+            session()->set("AccessToken", $token['access_token']);
+
+            $googleService = new \Google_Service_Oauth2($this->googleClient);
+            $data = $googleService->userinfo->get();
+            $currentDateTime = date("Y-m-d H:i:s");
+            // echo "<pre>"; print_r($data);die;
+            $userdata = array();
+            
+            if($this->gModel->isAlreadyRegister($data['id'])){
+                //User Already registered and want to Login Again
+                $userdata = [
+                    'full_name' => $data['givenName']. " " . $data['familyName'],
+                    'email' => $data['email'],
+                    'updated_at' => $currentDateTime
+                ];
+                $this->gModel->updateUserData($userdata, $data['id']);
+            }else{
+                //New User and want to Login
+                $userdata = [
+                    'oauth_id' => $data['id'],
+                    'full_name' => $data['givenName']. " " . $data['familyName'],
+                    'email' => $data['email'],
+                    'profile_img' => $data['picture'],
+                ];
+                $this->gModel->insertUserData($userdata);
+            }
+            session()->set("logged_user", $userdata['email']);
+
+        }else{
+            session()->set("error", "Something went Wrong");
+            return redirect()->to(base_url());
+        }
+        //Successful Login
+        return redirect()->to(base_url("dashboard"));
+    }
+
     // getting the device of the use that logged in
     public function getUserAgentInfo()
     {

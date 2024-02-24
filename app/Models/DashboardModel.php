@@ -12,14 +12,44 @@ class DashboardModel extends Model
         $builder->where('email', $email);
         $result = $builder->get();
 
-
         if (($result->getNumRows()) == 1) { //get the row of result == 1
             return $result->getRow();
         }
-        else
-        {
-            return false;
+
+        $gbuilder = $this->db->table('google_login');
+        $gbuilder->where('email', $email);
+        $gresult = $gbuilder->get();
+
+        if (($gresult->getNumRows()) == 1) { //get the row of result == 1
+            return $gresult->getRow();
         }
+
+    }
+    public function updateProfile($email, $userData)
+    {
+        // Check if the user exists in the 'user' table
+        $userBuilder = $this->db->table('user');
+        $userBuilder->where('email', $email);
+        $userResult = $userBuilder->get();
+
+        if ($userResult->getNumRows() == 1) {
+            $userBuilder->where('email', $email);
+            $userBuilder->update($userData);
+            return true; // User profile updated successfully
+        }
+
+        // Check if the user exists in the 'google_login' table
+        $googleBuilder = $this->db->table('google_login');
+        $googleBuilder->where('email', $email);
+        $googleResult = $googleBuilder->get();
+
+        if ($googleResult->getNumRows() == 1) {
+            $googleBuilder->where('email', $email);
+            $googleBuilder->update($userData);
+            return true; // Google login profile updated successfully
+        }
+
+        return false; // User profile not found in either table
     }
 
     public function updateLogoutTime($id)

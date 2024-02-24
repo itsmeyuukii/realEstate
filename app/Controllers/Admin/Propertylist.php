@@ -1,139 +1,214 @@
 <?php
 namespace App\Controllers\Admin;
 
+use App\Models\Admin\AdminRegisterModel;
+use App\Models\DropzoneModel;
 use CodeIgniter\Controller;
 use App\Models\LocationModel;
 use App\Models\PropertyModel;
 use CodeIgniter\Log\Logger;
 
-class Propertylist extends Controller
+class Propertystaging extends Controller
 {
     protected $locModel;
     protected $session;
     protected $logger;
     protected $pModel;
+    protected $dzModel;
+    protected $rModel;
 
     public function __construct()
     {
+        $this->dzModel = new DropzoneModel();
         $this->locModel = new LocationModel();
         $this->pModel = new PropertyModel();
+        $this->rModel = new AdminRegisterModel;
         $this->session = \Config\Services::session();
         $this->logger = service(Logger::class); // Initialize the logger
         helper("form");
         helper('file');
+        
     }
 
     public function index()
     {
-        if (!session()->has('logged_user')) {
+        //check if theres a logged user
+        if (!$this->session->get('logged_user')) {
             return redirect()->to(base_url());
         }
+        // Check if the user is logged in
+        $logged_username = $this->session->get('logged_user');
+        $adminLevel = $this->rModel->where('username', $logged_username)->first();
+        
+        //check level of security
+        if(!in_array($adminLevel['level'], [1, 2, 3]) )
+        {
+            return redirect()->to(base_url('unauthorized'));
+        }
 
-        $data["properties"] = $this->pModel->getPropertyLists();
+        // Set up pagination
+        // $data['properties'] = $this->pModel->getPropertyLists();
+        $data[] = null;
+        $perPage = $this->request->getGet('property-list_length') ?? session()->get('perPage', 10);
 
-        return view("propertylist/v_propertylist", $data);
+        $data['page'] = (int) ($this->request->getGet('page') ?? 1);
+        $data['perPage'] = $perPage;
+        $data['total'] = $this->pModel->countAll();
+        $data['properties'] = $this->pModel->paginate(($data['perPage']));
+        
+        $data['pager'] = $this->pModel->pager;
+        
+
+        
+
+        return view("propertylist/v_propertyliststaging", $data);
     }
 
     public function addProperty()
     {
+        //check if theres a logged user
+        if (!$this->session->get('logged_user')) {
+            return redirect()->to(base_url());
+        }
+        // Check if the user is logged in
+        $logged_username = $this->session->get('logged_user');
+        $adminLevel = $this->rModel->where('username', $logged_username)->first();
+        
+        //check level of security
+        if(!in_array($adminLevel['level'], [1, 2]) )
+        {
+            return redirect()->to(base_url('unauthorized'));
+        }
+        
+        //insert sessionid as product_id
+        $sessionId = $this->request->getGet('session_id');
+		$this->session->set('dropzone_session_id', $sessionId);
+		$pushSession = [
+			'product_id' => $sessionId
+		];
+
+		$this->pModel->insertSessionId($pushSession);
+
         $region = $this->locModel->selectData("region");
         $data['regions'] = $region;
         $data['validation'] = null;
         $pDescContent = $this->request->getVar('p_desc');
+        $images = $this->dzModel->getTempImagesByProductId($sessionId);
 
-        $rules = [
-            'p_type' => 'required',
-            'p_class' => 'required',
-            'p_status' => 'required',
-            'ribbon' => 'required',
-            'furnish' => 'required',
-            'fc_status' => 'required',
-            'list_type' => 'required',
-            'p_feature' => 'required',
-            'v_status' => 'required',
-            // Property Description
-            'p_title' => 'required',
-            'p_code' => 'required|is_unique[property_list.p_code]',
-            // Additional Descriptions
-            'lot_area' => 'required',
-            'floor_area' => 'required',
-            'address' => 'required',
-            // Property Location
-            'region_id' => 'required',
-            'province_id' => 'required',
-            'municipality_id' => 'required',
-        ];
+
         if ($this->request->getMethod() == "post") {
-            if ($this->validate($rules))
-                $propertyData = [
-                    // Property Identification
-                    "p_type" => $this->request->getVar('p_type'),
-                    "p_class" => $this->request->getVar('p_class'),
-                    "p_status" => $this->request->getVar('p_status'),
-                    "ribbon" => $this->request->getVar('ribbon'),
-                    "furnish" => $this->request->getVar('furnish'),
-                    "fc_status" => $this->request->getVar('fc_status'),
-                    "list_type" => $this->request->getVar('list_type'),
-                    "p_feature" => $this->request->getVar('p_feature'),
-                    "v_status" => $this->request->getVar('v_status'),
-                    // Property Description
-                    "p_title" => $this->request->getVar('p_title'),
-                    "p_code" => $this->request->getVar('p_code'),
-                    "p_desc" => $pDescContent,
-                    // Additional Descriptions
-                    "lot_area" => $this->request->getVar('lot_area'),
-                    "floor_area" => $this->request->getVar('floor_area'),
-                    "address" => $this->request->getVar('address'),
-                    // Property Location
-                    'region_id' => $this->request->getVar('region_id'),
-                    'province_id' => $this->request->getVar('province_id'),
-                    'municipality_id' => $this->request->getVar('municipality_id'),
-                ];
-            // File validation passed; process the image upload and database insertion.
+            $propertyData = [
+                // Property Identification
+                "p_type" => $this->request->getVar('p_type'),
+                "p_class" => $this->request->getVar('p_class'),
+                "p_status" => $this->request->getVar('p_status'),
+                "ribbon" => $this->request->getVar('ribbon'),
+                "furnish" => $this->request->getVar('furnish'),
+                "fc_status" => $this->request->getVar('fc_status'),
+                "list_type" => $this->request->getVar('list_type'),
+                "p_feature" => $this->request->getVar('p_feature'),
+                "v_status" => $this->request->getVar('v_status'),
+                // Property Description
+                "p_title" => $this->request->getVar('p_title'),
+                "p_code" => $this->request->getVar('p_code'),
+                "p_desc" => $pDescContent,
+                // Additional Descriptions
+                "lot_area" => $this->request->getVar('lot_area'),
+                "floor_area" => $this->request->getVar('floor_area'),
+                "address" => $this->request->getVar('address'),
+                // Property Location
+                'region_id' => $this->request->getVar('region_id'),
+                'province_id' => $this->request->getVar('province_id'),
+                'municipality_id' => $this->request->getVar('municipality_id'),
+                //payment price
+                'price_type' => $this->request->getVar('price_type'),
+                'price' => $this->request->getVar('price')
+            ];
+            $propertyMapLocation = [
+                'p_code' => $propertyData['p_code'],
+                'name' => $propertyData['p_title'],
+                'address' => $propertyData['address'],
+                'type' => $propertyData['p_type'],
+                'lng' => $this->request->getVar('longitude'),
+                'lat' => $this->request->getVar('latitude')
+            ];
+            $propertyVideo = [
+                'embed_link' => $this->request->getVar('embed_link'),
+                'p_code' => $propertyData['p_code'],
+            ];
+
+            // Process and move uploaded images
             $imageData = [];
-            foreach ($this->request->getFiles()['images'] as $file) {
-                if ($file->isValid() && !$file->hasMoved()) {
-                    $newName = $file->getRandomName();
-                    $file->move(FCPATH . 'public/contentuploads', $newName);
-                    $path = base_url('public/contentuploads/' . $newName);
-
-                    // Save information about the uploaded image
-                    $imageData[] = [
-                        'image_link' => $path,
-                        'p_code' => $propertyData['p_code'],
-                    ];
-                } else {
-                    $errorMessage = 'File validation failed for ' . $file->getName();
-                    $this->logger->error($errorMessage);
-
-                    session()->setTempdata('error', 'Property Not Created');
-                    return redirect()->to(current_url());
+            if ($images) {
+                foreach ($images as $image) {
+                    //call the source image from dropzone
+                    $source_img = 'public/uploads/temp/' . $image->filename;
+                    //save the pathinfo
+                    $image_path_info = pathinfo($image->filename);
+                    //retain the extension name
+                    $image_extension = isset($image_path_info['extension']) ? '.' . $image_path_info['extension'] : '';
+                    //create new name for image
+                    $uniqueId = substr(uniqid(), 0, 14);
+                    $new_filename = $uniqueId . $image_extension;
+                    //destination folder
+                    $dest = 'public/uploads/product_images/' . $new_filename;
+    
+                    $copyImage = copy($source_img, $dest);
+    
+                    if ($copyImage) {
+                        $image_link = 'public/uploads/product_images/' . $new_filename;
+                        $imageData[] = [
+                            'image_link' => $image_link,
+                            'p_code' => $this->request->getVar('p_code'),
+                        ];
+                        // Delete the file from the temp folder
+                        unlink($source_img);
+                    }
+                }
+                // Batch insert all images
+                if (!empty($imageData)) {
+                    $this->pModel->insertBatchImages($imageData);
+                    //delete the records from database
+                    $this->dzModel->deleteTempImages($images);
                 }
             }
-
-            // Insert images into the database
+            //insert all the data
             try {
-                $this->pModel->insertImages($imageData);
                 $this->pModel->insertPropertylists($propertyData);
+                $this->pModel->insertEmbedVIdeo($propertyVideo);
+                $this->pModel->insertPropertyLocation($propertyMapLocation);
             } catch (\Exception $e) {
                 $this->logger->error('Error inserting images into the database: ' . $e->getMessage());
                 session()->setTempdata('error', 'Property Not Created');
                 return redirect()->to(current_url());
             }
             session()->setTempdata('success', 'Property Created Successfully');
-            return redirect()->to(base_url('propertylist'));
-
-        } else {
-            $data['validation'] = $this->validator;
+            return redirect()->to(base_url('propertystaging'));
         }
+        
 
-        return view("propertylist/v_addproperty", $data);
+        return view("propertylist/v_addpropertystaging", $data);
     }
     public function editProperty($id)
     {
+        //check if theres a logged user
+        if (!$this->session->get('logged_user')) {
+            return redirect()->to(base_url());
+        }
+        // Check if the user is logged in
+        $logged_username = $this->session->get('logged_user');
+        $adminLevel = $this->rModel->where('username', $logged_username)->first();
+        
+        //check level of security
+        if(!in_array($adminLevel['level'], [1, 2]) )
+        {
+            return redirect()->to(base_url('unauthorized'));
+        }
+        //get property via $id
+        $data['properties'] = $this->pModel->getPropertyListsById($id);
+        //region
         $region = $this->locModel->selectData("region");
         $data['regions'] = $region;
-        $data['properties'] = $this->pModel->getPropertyListsById($id);
         //Province
         $provinceId = $data['properties']->province_id;
         $prov_data = $this->locModel->selectProvince($provinceId);
@@ -142,98 +217,158 @@ class Propertylist extends Controller
         $muniId = $data['properties']->municipality_id;
         $muni_data = $this->locModel->selectMunicipality($muniId);
         $data['muni_data'] = $muni_data;
-        //Image links
+
+        //get Image links via p_code
         $getPCode = $data['properties']->p_code;
-        $pCode = $this->pModel->getImagesByPropertyCode($getPCode);
-        $data['images'] = $pCode;
-
+        //Transfer to $data['images'] for view
+        $imagesViaPcode = $this->pModel->getImagesByPropertyCode($getPCode);
+        $data['images'] = $imagesViaPcode;
+        //transfer to data Map Location via pcode
+        $mapLoc = $this->pModel->getMapLocation($getPCode);
+        $data['mapLoc'] = $mapLoc;
+        //Transfer to data Embed Video via Pcode
+        $embedVideo = $this->pModel->getEmbedVideo($getPCode);
+        $data['embedVideo'] = $embedVideo;
         $data['validation'] = null;
+        //get Description
         $pDescContent = $this->request->getVar('p_desc');
-        
-        if ($this->request->getMethod() == "post") {
-                $propertyData = [
-                    // Property Identification
-                    "p_type" => $this->request->getVar('p_type'),
-                    "p_class" => $this->request->getVar('p_class'),
-                    "p_status" => $this->request->getVar('p_status'),
-                    "ribbon" => $this->request->getVar('ribbon'),
-                    "furnish" => $this->request->getVar('furnish'),
-                    "fc_status" => $this->request->getVar('fc_status'),
-                    "list_type" => $this->request->getVar('list_type'),
-                    "p_feature" => $this->request->getVar('p_feature'),
-                    "v_status" => $this->request->getVar('v_status'),
-                    // Property Description
-                    "p_title" => $this->request->getVar('p_title'),
-                    "p_code" => $this->request->getVar('p_code'),
-                    "p_desc" => $pDescContent,
-                    // Additional Descriptions
-                    "lot_area" => $this->request->getVar('lot_area'),
-                    "floor_area" => $this->request->getVar('floor_area'),
-                    "address" => $this->request->getVar('address'),
-                ];
-                // File validation passed; process the image upload and database insertion.
-                $imageData = [];
-                foreach ($this->request->getFiles()['images'] as $file) {
-                    if ($file->isValid() && !$file->hasMoved()) {
-                        $newName = $file->getRandomName();
-                        $file->move(FCPATH . 'public/contentuploads', $newName);
-                        $path = base_url('public/contentuploads/' . $newName);
 
-                        // Save information about the uploaded image
+        $images = $this->dzModel->getTempImagesByProductId($getPCode);
+
+
+        if ($this->request->getMethod() == "post") {
+            $propertyData = [
+                // Property Identification
+                "p_type" => $this->request->getVar('p_type'),
+                "p_class" => $this->request->getVar('p_class'),
+                "p_status" => $this->request->getVar('p_status'),
+                "ribbon" => $this->request->getVar('ribbon'),
+                "furnish" => $this->request->getVar('furnish'),
+                "fc_status" => $this->request->getVar('fc_status'),
+                "list_type" => $this->request->getVar('list_type'),
+                "p_feature" => $this->request->getVar('p_feature'),
+                "v_status" => $this->request->getVar('v_status'),
+                // Property Description
+                "p_title" => $this->request->getVar('p_title'),
+                "p_code" => $this->request->getVar('p_code'),
+                "p_desc" => $pDescContent,
+                // Additional Descriptions
+                "lot_area" => $this->request->getVar('lot_area'),
+                "floor_area" => $this->request->getVar('floor_area'),
+                "address" => $this->request->getVar('address'),
+                // Property Location
+                'region_id' => $this->request->getVar('region_id'),
+                'province_id' => $this->request->getVar('province_id'),
+                'municipality_id' => $this->request->getVar('municipality_id'),
+                //payment price
+                'price_type' => $this->request->getVar('price_type'),
+                'price' => $this->request->getVar('price')
+            ];
+            $propertyMapLocation = [
+                'p_code' => $propertyData['p_code'],
+                'name' => $propertyData['p_title'],
+                'address' => $propertyData['address'],
+                'type' => $propertyData['p_type'],
+                'lng' => $this->request->getVar('longitude'),
+                'lat' => $this->request->getVar('latitude')
+            ];
+            $propertyVideo = [
+                'embed_link' => $this->request->getVar('embed_link'),
+                'p_code' => $propertyData['p_code'],
+            ];
+
+            // Process and move uploaded images
+            $imageData = [];
+            if (!empty($images)) {
+                foreach ($images as $image) {
+                    //call the source image from dropzone
+                    $source_img = 'public/uploads/temp/' . $image->filename;
+                    //save the pathinfo
+                    $image_path_info = pathinfo($image->filename);
+                    //retain the extension name
+                    $image_extension = isset($image_path_info['extension']) ? '.' . $image_path_info['extension'] : '';
+                    //create new name for image
+                    $uniqueId = substr(uniqid(), 0, 14);
+                    $new_filename = $uniqueId . $image_extension;
+                    //destination folder
+                    $dest = 'public/uploads/product_images/' . $new_filename;
+    
+                    $copyImage = copy($source_img, $dest);
+    
+                    if ($copyImage) {
+                        $image_link = 'public/uploads/product_images/' . $new_filename;
                         $imageData[] = [
-                            'image_link' => $path,
+                            'image_link' => $image_link,
                             'p_code' => $this->request->getVar('p_code'),
                         ];
-                    } else {
-                        $errorMessage = 'File validation failed for ' . $file->getName();
-                        $this->logger->error($errorMessage);
-
-                        session()->setTempdata('error', 'Property Not Created');
-                        return redirect()->to(current_url());
+                        // Delete the file from the temp folder
+                        unlink($source_img);
                     }
                 }
-                // Insert images into the database
-                try {
-                    $this->pModel->updatePropertylists($propertyData, $id);
-                    $this->pModel->insertImages($imageData);
-                } catch (\Exception $e) {
-                    $this->logger->error('Error inserting images into the database: ' . $e->getMessage());
-                    session()->setTempdata('error', 'Property Not Created');
-                    return redirect()->to(current_url());
+                // Batch insert all images
+                if (!empty($imageData)) {
+                    $this->pModel->insertBatchImages($imageData);
+                    //delete the records from database
+                    $this->dzModel->deleteTempImages($images);
                 }
-                session()->setTempdata('success', 'Property Created Successfully');
-                return redirect()->to(base_url('propertylist'));
-
-            
+            }
+            //insert all the data
+            try {
+                $this->pModel->updatePropertylists($propertyData, $id);
+                $this->pModel->updateEmbedVIdeo($propertyVideo, $getPCode);
+                $this->pModel->insertPropertyLocation($propertyMapLocation);
+            } catch (\Exception $e) {
+                $this->logger->error('Error inserting images into the database: ' . $e->getMessage());
+                session()->setTempdata('error', 'Property Not Created');
+                return redirect()->to(current_url());
+            }
+            session()->setTempdata('success', 'Property Created Successfully');
+            return redirect()->to(base_url('propertystaging'));
         }
 
-        return view("propertylist/v_editproperty", $data);
+        return view("propertylist/v_editpropertystaging", $data);
     }
     public function deleteImage()
     {
-        // Call the deleteImage function from your model to delete the image from the database
-        $imageLink = $this->request->getPost("iLink");
-        $deleted = $this->pModel->deleteImage($imageLink);
-        if ($deleted) {
-            $response = ['success' => true, 'message' => 'Image deleted successfully'];
-        } else {
-            $response = ['success' => false, 'message' => 'Failed to delete the image'];
-        }
+        $imageName = $this->request->getPost('filename');
 
-        // Return the response as JSON
-        return $this->response->setJSON($response);
+		$imagePath = $imageName;
+
+		// Perform the deletion
+		if (file_exists($imagePath)) {
+			@unlink($imagePath);
+			// Delete the record from the database
+			$this->pModel->deleteImageFromEditDropzone($imageName);
+
+			return json_encode([
+				"status" => 1,
+				"message" => "Image deleted successfully."
+			]);
+		} else {
+			return json_encode([
+				"status" => 0,
+				"message" => "Error deleting image." . $imageName
+			]);
+		}
     }
-
     public function deleteProperty($id)
     {
-        if($this->pModel->deletePropertyById($id))
-        {
-            return redirect()->to(base_url('propertylist'));
-        }else
-        {
-            echo "error";
-        }
-        return;
+        $data = [];
+		$data['property'] = $this->pModel->getPropertyListsById($id);
+
+		$getPcode = $data['property']->p_code;
+		$images = $this->pModel->getImagesByPropertyCode($getPcode);
+
+
+		if($this->pModel->deletePropertyById($id))
+		{
+			$this->pModel->deletePropertyImages($images);
+			
+			return redirect()->to(base_url('propertystaging'));
+		} else
+		{
+			echo "error";
+		}
     }
     public function province()
     {
@@ -257,4 +392,87 @@ class Propertylist extends Controller
         }
         return $this->response->setBody($output);
     }
+    public function insertDropzoneImageTemp()
+    {
+        $images = $this->request->getFile('file');
+		$sessionID = $this->session->get('dropzone_session_id');
+
+		if (!$sessionID) {
+			// Handle the case when session ID is not available
+			return json_encode([
+				"status" => 0,
+				"message" => 'Session ID not found.',
+			]);
+		}
+
+		$imageName = $images->getRandomName();
+		$images->move('public/uploads/temp', $imageName);
+		$data = [
+			"filename" => $imageName,
+			"product_id" => $sessionID
+		];
+		try {
+			$this->dzModel->insertImagesDropzone($data);
+		} catch (\Exception $e) {
+			$this->logger->error('Error inserting image into the database: ' . $e->getMessage());
+			return $this->fail('Error inserting image into the database.');
+		}
+
+		return json_encode([
+			"status" => 1,
+			"filename" => $imageName
+
+		]);
+        
+    }
+    public function editDropzoneStore()
+	{
+		$images = $this->request->getFile('file');
+
+		$pcode = $this->request->getPost('p_code');
+
+		$imageName = $images->getRandomName();
+		$images->move('public/uploads/temp', $imageName);
+		$data = [
+			"filename" => $imageName,
+			"product_id" => $pcode
+		];
+		try {
+			$this->dzModel->insertImagesDropzone($data);
+		} catch (\Exception $e) {
+			$this->logger->error('Error inserting image into the database: ' . $e->getMessage());
+			return $this->fail('Error inserting image into the database.');
+		}
+
+		return json_encode([
+			"status" => 1,
+			"filename" => $imageName
+
+		]);
+	}
+    public function deleteDropzoneImageTemp()
+	{
+		$imageName = $this->request->getPost('filename');
+
+		$imagePath = 'public/uploads/temp/' . $imageName;
+
+		// Perform the deletion
+		if (file_exists($imagePath)) {
+			@unlink($imagePath);
+			// Delete the record from the database
+			$this->dzModel->deleteImageDropzone($imageName);
+
+			return json_encode([
+				"status" => 1,
+				"message" => "Image deleted successfully."
+			]);
+		} else {
+			return json_encode([
+				"status" => 0,
+				"message" => "Error deleting image." . $imageName
+			]);
+		}
+
+	}
+
 }

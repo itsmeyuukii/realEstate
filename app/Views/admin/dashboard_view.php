@@ -15,8 +15,7 @@ Welcome
         <div class="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10">
             <div class="d-flex flex-wrap flex-md-nowrap mb-6">
                 <div class="mr-0 mr-md-auto">
-                    <h2 class="mb-0 text-heading fs-22 lh-15">Welcome back, Ronald Hunter!</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. At iusto, laboriosam. Atque</p>
+                    <h2 class="mb-0 text-heading fs-22 lh-15"><?= $userdata->username ?></h2>
                 </div>
             </div>
             <div class="row">
@@ -32,8 +31,8 @@ Welcome
                                 </span>
                             </div>
                             <div class="col-7 text-center">
-                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="29" data-decimals="0"
-                                    data-duration="0" data-separator="">29</p>
+                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="<?= $total_properties ?>" data-decimals="0"
+                                    data-duration="0" data-separator=""><?= $total_properties ?></p>
                                 <p>Properties</p>
                             </div>
                         </div>
@@ -51,8 +50,8 @@ Welcome
                                 </span>
                             </div>
                             <div class="col-7 text-center">
-                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="1730" data-decimals="0"
-                                    data-duration="0" data-separator="">1730</p>
+                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="<?= $total_views ?>" data-decimals="0"
+                                    data-duration="0" data-separator=""><?= $total_views ?></p>
                                 <p>Total views</p>
                             </div>
                         </div>
@@ -70,9 +69,9 @@ Welcome
                                 </span>
                             </div>
                             <div class="col-8 text-center">
-                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="329" data-decimals="0"
-                                    data-duration="0" data-separator="">329</p>
-                                <p>Total Visitor Reviews</p>
+                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="<?= $total_inquiries ?>" data-decimals="0"
+                                    data-duration="0" data-separator=""><?= $total_inquiries ?></p>
+                                <p>Total Inquiries</p>
                             </div>
                         </div>
                     </div>
@@ -89,8 +88,8 @@ Welcome
                                 </span>
                             </div>
                             <div class="col-7 text-center">
-                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="914" data-decimals="0"
-                                    data-duration="0" data-separator="">914</p>
+                                <p class="fs-42 lh-12 mb-0 counterup" data-start="0" data-end="<?= $total_favorites ?>" data-decimals="0"
+                                    data-duration="0" data-separator=""><?= $total_favorites ?></p>
                                 <p>Total Favorites</p>
                             </div>
                         </div>
@@ -168,7 +167,7 @@ Welcome
                                                 <div class="card-body p-0 py-4">
                                                     <canvas class="chartjs" data-chart-options="[]"
                                                         data-chart-labels='["Mar 12","Mar 13","Mar 14","Mar 15","Mar 16","Mar 17","Mar 18","Mar 19"]'
-                                                        data-chart-datasets='[{"label":"Clicked","data":[0,13,9,3,15,15,10,0],"backgroundColor":"rgba(105, 105, 235, 0.1)","borderColor":"#6969eb","borderWidth":3,"fill":true},{"label":"View","data":[10,20,18,15,28,33,27,10],"backgroundColor":"rgba(254, 91, 52, 0.1)","borderColor":"#ff6935","borderWidth":3,"fill":true}]'>
+                                                        data-chart-datasets='[{"label":"Total Views","data":[0,13,9,3,15,15,10,0],"backgroundColor":"rgba(105, 105, 235, 0.1)","borderColor":"#6969eb","borderWidth":3,"fill":true},{"label":"User Views","data":[10,20,18,15,28,33,27,10],"backgroundColor":"rgba(254, 91, 52, 0.1)","borderColor":"#ff6935","borderWidth":3,"fill":true}]'>
                                                     </canvas>
                                                 </div>
                                             </div>

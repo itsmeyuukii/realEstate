@@ -3,14 +3,14 @@
 namespace App\Controllers\Admin;
 
 use \CodeIgniter\Controller;
-use App\Models\DashboardModel;
+use App\Models\Admin\AdminDashboardModel;
 
 class Dashboard extends Controller
 {
     public $dModel;
     public function __construct()
     {
-        $this->dModel = new DashboardModel;
+        $this->dModel = new AdminDashboardModel;
     }
     public function index()
     {
@@ -18,14 +18,17 @@ class Dashboard extends Controller
         {
             return redirect()->to(base_url());
         }
-
-        
-        $email = session()->get('logged_user'); //getting the email to set in session
+        $username = session()->get('logged_user'); //getting the email to set in session
 
         // $userdata = $this->dModel->getLoggedInUserData($email); // get the email to transfer to model
         
+        $data['total_properties'] = $this->dModel->countAllProperties();
+        $data['total_favorites'] = $this->dModel->countAllFavourites();
+        $data['total_inquiries'] = $this->dModel->countAllInquiries();
+        $data['total_views'] = $this->dModel->countAllViews();
 
-        $data['userdata'] = $this->dModel->getLoggedInUserData($email);
+        
+        $data['userdata'] = $this->dModel->getLoggedInUserData($username);
 
         return view('admin/dashboard_view', $data);
         

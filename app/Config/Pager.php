@@ -24,7 +24,9 @@ class Pager extends BaseConfig
         'default_full'   => 'CodeIgniter\Pager\Views\default_full',
         'default_simple' => 'CodeIgniter\Pager\Views\default_simple',
         'default_head'   => 'CodeIgniter\Pager\Views\default_head',
+        'pagination_view' => 'App\Views\layouts\pagination_view'
     ];
+    // public $baseURL = 'http://localhost/ci4_cms/';
 
     /**
      * --------------------------------------------------------------------------
@@ -33,5 +35,5 @@ class Pager extends BaseConfig
      *
      * The default number of results shown in a single page.
      */
-    public int $perPage = 20;
+    public int $perPage = 10;
 }

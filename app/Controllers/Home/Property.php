@@ -7,6 +7,7 @@ use App\Models\FavouriteModel;
 use CodeIgniter\Controller;
 use App\Models\HomeModel;
 use App\Models\PropertyModel;
+use App\Models\PropertyInquiryModel;//propertyInquiries
 use App\Models\BlogModel;
 
 class Property extends Controller
@@ -17,12 +18,14 @@ class Property extends Controller
     protected $bModel;
     protected $session;
     protected $dModel;
+    protected $pIModel;//propertyInquiries
     protected $email; // need to define email
     public function __construct()
     {
         helper("form");
         helper("number");
         helper("google");
+        $this->pIModel = new PropertyInquiryModel();//propertyInquiries
         $this->fModel = new FavouriteModel();
         $this->hModel = new HomeModel();
         $this->pModel = new PropertyModel();
@@ -199,6 +202,13 @@ class Property extends Controller
             // Handle the case when the property with the given code is not found
             return "Property not found";
         }
+
+        $this->pIModel->insert([
+            'full_name' => $userdata->full_name,
+            'p_code' => $pCode,
+            'email' => $logged_user,
+            'phone' => $userdata->phone
+        ]);
 
         $to = 'info@msg-homes.com';
         $subject = 'Property Inquiry - ' . $pCode; // Assuming you have a property_name field

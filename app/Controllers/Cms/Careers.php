@@ -3,26 +3,27 @@
 namespace App\Controllers\Cms;
 
 use CodeIgniter\Controller;
-use App\Models\BlogModel;
+use App\Models\CareerModel;
 use App\Models\Admin\AdminRegisterModel;
 use App\Models\Admin\AdminDashboardModel;
 
-class Blog extends Controller
+class Careers extends Controller
 {
-    protected $bModel;
+    protected $careerModel;
     protected $rModel;
-    protected $dModel;
     protected $session;
+    protected $dModel;
+
     public function __construct()
     {
-        $this->bModel = new BlogModel;
-        $this->rModel = new AdminRegisterModel;
-        $this->dModel = new AdminDashboardModel;
+        $this->careerModel = new CareerModel();
+        $this->rModel = new AdminRegisterModel();
+        $this->dModel = new AdminDashboardModel();
         $this->session = \Config\Services::session();
-        helper("form");
-        helper("text");
-
+        helper('form');
+        helper('text');
     }
+
     public function index()
     {
         //check if theres a logged user
@@ -40,21 +41,21 @@ class Blog extends Controller
         {
             return redirect()->to(base_url('unauthorized'));
         }
+
         // Set up pagination
         $data[] = null;
         $perPage = $this->request->getGet('list_length') ?? session()->get('perPage', 10);
 
         $data['page'] = (int) ($this->request->getGet('page') ?? 1);
         $data['perPage'] = $perPage;
-        $data['total'] = $this->bModel->countAll();
-        $data['blogs'] = $this->bModel->paginate(($data['perPage']));
+        $data['total'] = $this->careerModel->countAll();
+        $data['careers'] = $this->careerModel->paginate(($data['perPage']));
         
-        $data['pager'] = $this->bModel->pager;
+        $data['pager'] = $this->careerModel->pager;
         
-        return view('cms/blog/v_bloglist', $data);
+        return view('cms/careers/v_career_list', $data);
     }
-
-    public function addBlog()
+    public function addCareer()
     {
         //check if theres a logged user
         if (!$this->session->get('logged_user')) {
@@ -62,6 +63,7 @@ class Blog extends Controller
         }
         // Check if the user is logged in
         $logged_username = $this->session->get('logged_user');
+        
         $adminLevel = $this->rModel->where('username', $logged_username)->first();
         
         //check level of security
@@ -76,32 +78,27 @@ class Blog extends Controller
             $validationRules = [
                 'title' => 'required',
                 'description' => 'required',
-                'blogImage' => 'uploaded[blogImage]|mime_in[blogImage,image/jpg,image/jpeg,image/png,image/gif]|max_size[blogImage,1024]',
             ];
 
             if ($this->validate($validationRules)) {
-                // Handle image upload
-                $image = $this->request->getFile('blogImage');
-                $imageName = $image->getRandomName();
-                $image->move('public/uploads/blog_images', $imageName);
 
                 $data = [
                     'title' => $this->request->getPost('title'),
                     'description' => $this->request->getPost('description'),
-                    'image_path' => 'public/uploads/blog_images/' . $imageName,
                 ];
-                $this->bModel->insert($data);
+                $this->careerModel->insert($data);
 
-                return redirect()->to(site_url('cms/blog/list'))->with('success', 'Blog added successfully');
+                return redirect()->to(site_url('cms/aboutus/careers'))->with('success', 'Career added successfully');
             } else {
                 // Validation failed, show errors
                 $data['validation'] = $this->validator;
             }
         }
+        $data['userdata'] = $this->dModel->getLoggedInUserData($logged_username);
 
-        return view('cms/blog/v_addblog');
+        return view('cms/careers/v_add_career', $data);
     }
-    public function updateBlog($id)
+    public function editCareer($id)
     {
         //check if theres a logged user
         if (!$this->session->get('logged_user')) {
@@ -109,6 +106,7 @@ class Blog extends Controller
         }
         // Check if the user is logged in
         $logged_username = $this->session->get('logged_user');
+        $data['userdata'] = $this->dModel->getLoggedInUserData($logged_username);
         $adminLevel = $this->rModel->where('username', $logged_username)->first();
         
         //check level of security
@@ -117,18 +115,14 @@ class Blog extends Controller
             return redirect()->to(base_url('unauthorized'));
         }
         
-        $blog = $this->bModel->find($id);
-        $data['blog'] = $blog;
-
-        $data['imagePath'] = base_url();
-
+        $career = $this->careerModel->find($id);
+        $data['career'] = $career;
         
 
         if ($this->request->getMethod() === 'post') {
             $validationRules = [
                 'title' => 'required',
                 'description' => 'required',
-                'blogImage' => 'mime_in[blogImage,image/jpg,image/jpeg,image/png,image/gif]|max_size[blogImage,1024]',
             ];
 
             if ($this->validate($validationRules)) {
@@ -138,18 +132,10 @@ class Blog extends Controller
                     'description' => $this->request->getPost('description'),
                 ];
 
-                $this->bModel->update($id, $data);
+                $this->careerModel->update($id, $data);
         
-                // Check if a new image is uploaded
-                $image = $this->request->getFile('blogImage');
-                if ($image->isValid() && !$image->hasMoved()) {
-                    // Upload and update the image path
-                    $imageName = $image->getRandomName();
-                    $image->move('public/uploads/blog_images', $imageName);
-                    $data['image_path'] = 'public/uploads/blog_images/' . $imageName;
-                }
 
-                return redirect()->to(site_url('cms/blog/list'))->with('success', 'Blog updated successfully');
+                return redirect()->to(site_url('cms/blog/list'))->with('success', 'Careerd updated successfully');
             } else {
                 // Validation failed, show errors
                 $data['validation'] = $this->validator;
@@ -157,6 +143,34 @@ class Blog extends Controller
         }
 
         // Load the edit view with the existing data
-        return view("cms/blog/v_updateblog", $data);
+        return view("cms/careers/v_update_career", $data);
+    }
+
+    public function deleteCareer($id)
+    {
+        if (!$this->session->get('logged_user')) {
+            return redirect()->to(base_url());
+        }
+        // Check if the user is logged in
+        $logged_username = $this->session->get('logged_user');
+        $data['userdata'] = $this->dModel->getLoggedInUserData($logged_username);
+        $adminLevel = $this->rModel->where('username', $logged_username)->first();
+        
+        //check level of security
+        if(!in_array($adminLevel['level'], [1, 2]) )
+        {
+            return redirect()->to(base_url('unauthorized'));
+        }
+
+        $deleted = $this->careerModel->delete($id);
+
+        if($deleted)
+        {
+            return redirect()->to(site_url('cms/aboutus/careers'))->with('success', 'Career deleted successfully');
+        }else
+        {
+            return redirect()->to(site_url('cms/aboutus/careers'))->with('error', 'Something Went Wrong :(');
+        }
+
     }
 }

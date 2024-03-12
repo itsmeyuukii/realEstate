@@ -62,10 +62,34 @@ class ServicesInquiry extends Controller
             return redirect()->to(base_url('unauthorized'));
         }
 
-        $inquiry = $this->cModel->cModel->where('id', $id)->get()->getRowArray();
+        $inquiry = $this->cModel->where('id', $id)->get()->getRowArray();
 
         $data['inquiry'] = $inquiry;
         $data['userdata'] = $this->dModel->getLoggedInUserData($logged_username);
         return view("admin/service/v_service_detail", $data);
+    }
+    function deleteInquiry($id)
+    {
+        $logged_username = $this->session->get('logged_user');
+        $adminLevel = $this->rModel->where('username', $logged_username)->first();
+        
+        if (!$logged_username) {
+            return redirect()->to(base_url());
+        }
+        //check level of security
+        if($adminLevel['level'] != 1)
+        {
+            return redirect()->to(base_url('unauthorized'));
+        }
+
+        $inquiry = $this->cModel->where('id', $id)->delete();
+        if($inquiry)
+        {
+            return redirect()->to(base_url('admin/inquiries'));
+        }
+        else
+        {
+            session()->setTempdata('error', 'Something went wrong');
+        }
     }
 }

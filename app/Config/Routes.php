@@ -26,11 +26,12 @@ $myroutes ['user/myprofile'] = 'User\Dashboard::myProfile';
 //Contact
 $myroutes ['contact'] = 'Contact::index';
 $myroutes ['admin/inquiries'] = 'Admin\ServicesInquiry::index';
-$myroutes ['admin/inquiries/(:num)'] = 'Admin\ServicesInquiry::viewInquiry';
-$myroutes['admin/inquiries/delete/(:num)'] = 'Admin\ServicesInquiry::deleteInquiry';
+$myroutes ['admin/inquiries/(:num)'] = 'Admin\ServicesInquiry::viewInquiry/$1';
+$myroutes['admin/inquiries/delete/(:num)'] = 'Admin\ServicesInquiry::deleteInquiry/$1';
 // Home
 $myroutes ['dashboard/login_activity'] = 'Admin\Dashboard::login_activity';
 $myroutes ['property/(:segment)'] = 'Home\Property::propertyDetails/$1';
+
 
 //add to favourite
 $myroutes ['addtofavourite/(:segment)'] = 'Home\Property::addToFavorites/$1';
@@ -51,9 +52,13 @@ $myroutes ['affiliate'] = 'Home\Aboutus::affiliate';
 $myroutes ['our-people'] = 'Home\Aboutus::ourPeople';
 $myroutes ['testimonials'] = 'Home\Aboutus::testimonials';
 $myroutes ['commendation'] = 'Home\Aboutus::commendation';
+$myroutes ['careers'] = 'Home\Aboutus::careers';
+$myroutes ['our-company'] = 'Home\Aboutus::ourCompany';
+
 $myroutes ['blog'] = 'Home\Blog::index';
 $myroutes ['blog-detail/(:segment)'] = 'Home\Blog::blogDetail/$1';
 $myroutes ['email-sub'] = 'Home\EmailSubs::index';
+
 
 //sell my property
 $myroutes ['sell-my-property'] = 'Home\SellProperty::index';
@@ -84,12 +89,17 @@ $myroutes['cms/pagelist'] = 'Cms\TermsPolicy::index';
 $myroutes['cms/edit/(:num)'] = 'Cms\TermsPolicy::editPage/$1';
 $myroutes['cms/addpage'] = 'Cms\TermsPolicy::addPage';
 $myroutes['cms/aboutus/employee/add'] = 'Cms\AboutUs::addEmployee';
+$myroutes['cms/aboutus/employee/delete/(:num)'] = 'Cms\AboutUs::deleteEmployee/$1';
 $myroutes['cms/aboutus/employee/edit/(:num)'] = 'Cms\AboutUs::updateEmployee/$1';
 $myroutes['cms/aboutus/employeelist'] = 'Cms\AboutUs::index';
 $myroutes['cms/aboutus/remove-image'] = 'Cms\AboutUs::deleteImage'; //delete image employee
 $myroutes['cms/blog/list'] = 'Cms\Blog::index';
 $myroutes['cms/blog/add'] = 'Cms\Blog::addBlog';
 $myroutes['cms/blog/edit/(:num)'] = 'Cms\Blog::updateBlog/$1';
+$myroutes['cms/aboutus/careers'] = 'Cms\Careers::index';
+$myroutes['cms/aboutus/career/add'] = 'Cms\Careers::addCareer';
+$myroutes['cms/aboutus/career/edit/(:num)'] = 'Cms\Careers::editCareer/$1';
+$myroutes['cms/aboutus/career/delete/(:num)'] = 'Cms\Careers::deleteCareer/$1';
 //footer
 $myroutes['privacy-policy'] = 'Home\Footer::privacyPolicy';
 

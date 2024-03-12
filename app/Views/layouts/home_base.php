@@ -129,7 +129,7 @@
                         <li class="dropdown-item">
                             <a id="navbar-link-my-properties"
                                 class="dropdown-link"
-                                href="dashboard-my-properties.html" >
+                                href="<?= base_url('our-company') ?>" >
                             Our Company
                             </a>
                         </li>
@@ -150,7 +150,7 @@
                         <li class="dropdown-item">
                             <a id="navbar-link-reviews"
                                 class="dropdown-link"
-                                href="dashboard-reviews.html" >
+                                href="<?= base_url('careers') ?>" >
                             Careers
                             </a>
                         </li>

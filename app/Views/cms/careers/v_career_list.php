@@ -6,13 +6,13 @@
 
 
 <main id="content" class="bg-gray-01">
-    <div class="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10 invoice-listing">
+    <div class="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10 career-listing">
         <div class="mb-6">
             <div class="row">
                 <div class="col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center">
                     <div class="d-flex form-group mb-0 align-items-center">
                         <label for="list_length" class="d-block mr-2 mb-0">Results:</label>
-                        <select name="list_length" id="list_length" aria-controls="employee-list"
+                        <select name="list_length" id="list_length" aria-controls="career-list"
                             class="form-control form-control-lg mr-2 selectpicker"
                             data-style="bg-white btn-lg h-52 py-2 border">
                             <option value="10" <?= ($perPage == 10) ? 'selected' : '' ?>>10</option>
@@ -21,7 +21,7 @@
                         </select>
                     </div>
                     <div class="align-self-center">
-                        <a href="<?= base_url('cms/aboutus/employee/add') ?>" class="btn btn-primary btn-lg" tabindex="0" aria-controls="employee-list">
+                        <a href="<?= base_url('cms/aboutus/career/add') ?>" class="btn btn-primary btn-lg" tabindex="0" aria-controls="career-list">
                             <span>Add New</span>
                         </a>
                     </div>
@@ -38,61 +38,55 @@
                     </div>
                     <div class="align-self-center">
                         <button class="btn btn-danger btn-lg" tabindex="0"
-                            aria-controls="employee-list"><span>Delete</span></button>
+                            aria-controls="career-list"><span>Delete</span></button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="table-responsive">
-            <?php if (count($employees) > 0): ?>
-                <table id="employee-list" class="table table-hover bg-white border rounded-lg">
+            <?php if (count($careers) > 0): ?>
+                <table id="career-list" class="table table-hover bg-white border rounded-lg">
                     <thead>
                         <tr role="row">
                             <th class="no-sort py-6 pl-6"><label class="new-control new-checkbox checkbox-primary m-auto">
                                     <input type="checkbox" class="new-control-input chk-parent select-customers-info">
                                 </label></th>
                             <th class="py-6">Id</th>
-                            <th class="py-6">Employee Name</th>
-                            <th class="py-6">Employee Position</th>
-                            <th class="py-6">Employee Description</th>
+                            <th class="py-6">Title</th>
+                            <th class="py-6">Description</th>
                             <th class="no-sort py-6">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($employees as $employee): ?>
+                        <?php foreach ($careers as $career): ?>
                             <tr role="row">
                                 <td class="checkbox-column py-6 pl-6"><label
                                         class="new-control new-checkbox checkbox-primary m-auto">
                                         <input type="checkbox" class="new-control-input child-chk select-customers-info">
                                     </label></td>
                                 <td class="align-middle"><a href="dashboard-preview-invoice.html"><span class="inv-number">
-                                            <?= $employee['id'] ?>
+                                            <?= $career['id'] ?>
                                         </span></a>
                                 </td>
                                 <td class="align-middle">
                                     <span class="text-primary pr-1">
                                     </span>
-                                    <?= $employee['name'] ?>
-                                </td>
-                                <td class="align-middle">
-                                    <span class="text-primary pr-1">
-                                    </span>
-                                    <?= $employee['position'] ?>
+                                    <?= $career['title'] ?>
                                 </td>
                                 <td class="align-middle">
                                     <span class="text-success pr-1">
                                         <i class="fal fa-calendar"></i>
                                     </span>
-                                    <?= character_limiter(esc($employee['description']), 10, '...'); ?>
+                                    <?= character_limiter(esc($career['description']), 10, '...'); ?>
                                 </td>
                                 <td class="align-middle">
-                                    <a href="<?= base_url('cms/aboutus/employee/edit/' . $employee['id']) ?>"
+                                    <a href="<?= base_url('cms/aboutus/career/edit/' . $career['id']) ?>"
                                         data-toggle="tooltip" title="Edit"
                                         class="d-inline-block fs-18 text-muted hover-primary mr-5"><i
                                             class="fal fa-pencil-alt"></i></a>
                                     <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal"
-                                        data-ourpeople-id="<?= $employee['id'] ?>"
-                                        class="delete-ourpeople-btn d-inline-block fs-18 text-muted hover-primary">
+                                        data-career-id="<?= $career['id'] ?>"
+                                        class="delete-career-btn d-inline-block fs-18 text-muted hover-primary">
                                         <i class="fal fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -103,7 +97,7 @@
                 <?= $pager->makeLinks($page, $perPage, $total, 'pagination_view') ?>
                 <div class="mt-6 text-center">
                     Showing
-                    <?= (($page * $perPage) - $perPage + 1) . "-" . (($page * $perPage) - $perPage + count($employees)) ?>
+                    <?= (($page * $perPage) - $perPage + 1) . "-" . (($page * $perPage) - $perPage + count($careers)) ?>
                     Result out of
                     <?= number_format($total) ?>
                 </div>
@@ -119,11 +113,11 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Are you sure you want to delete this property?</p>
+                                <p>Are you sure you want to delete this career?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <a href="<?= base_url('/' . $employee['id']) ?>"
+                                <a href="<?= base_url('cms/aboutus/career/delete/' . $career['id']) ?>"
                                     id="confirmDeleteButton" class="btn btn-danger">Delete</a>
                             </div>
                         </div>

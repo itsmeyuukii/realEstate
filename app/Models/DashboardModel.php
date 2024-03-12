@@ -51,6 +51,24 @@ class DashboardModel extends Model
 
         return false; // User profile not found in either table
     }
+    // Method to verify old password
+    public function verifyPassword($username, $oldPassword)
+    {
+        $user = $this->db->table('users')->where('username', $username)->get()->getRow();
+        if ($user) {
+            return password_verify($oldPassword, $user->password);
+        }
+        return false;
+    }
+
+    // Method to update password
+    public function updatePassword($username, $newPassword)
+    {
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $data = ['password' => $hashedPassword];
+        return $this->db->table('users')->where('username', $username)->update($data);
+    }
+
 
     public function updateLogoutTime($id)
     {

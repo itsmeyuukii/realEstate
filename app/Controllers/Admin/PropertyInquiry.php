@@ -86,7 +86,7 @@ class PropertyInquiry extends Controller
         $inquiry = $this->pIModel->where('id', $id)->delete();
         if($inquiry)
         {
-            return redirect()->to(current_url());
+            return redirect()->to(base_url());
         }
         else
         {

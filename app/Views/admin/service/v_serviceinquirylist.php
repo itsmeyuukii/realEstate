@@ -88,12 +88,34 @@
                                         class="d-inline-block fs-18 text-muted hover-primary mr-5"><i
                                             class="fal fa-eye"></i></a>
                                     <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal"
-                                        data-property-id="<?= $inquiry['id'] ?>"
-                                        class="delete-property-btn d-inline-block fs-18 text-muted hover-primary">
+                                        data-service-inquiry-id="<?= $inquiry['id'] ?>"
+                                        class="delete-service-inquiry-btn d-inline-block fs-18 text-muted hover-primary">
                                         <i class="fal fa-trash-alt"></i>
                                     </a>
                                 </td>
                             </tr>
+                            <!-- Confirmation Modal -->
+                            <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
+                                aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure you want to delete this request?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <a href="<?= base_url('admin/inquiries/delete/' . $inquiry['id']) ?>"
+                                                id="confirmDeleteButton" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -110,28 +132,7 @@
         </div>
 
     </div>
-    <!-- Confirmation Modal -->
-    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
-        aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to delete this request?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="<?= base_url('admin/inquiries/delete' . $inquiry['id']) ?>"
-                        id="confirmDeleteButton" class="btn btn-danger">Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </main>
 
 <script>

@@ -381,10 +381,10 @@
                 <div class="card-footer bg-transparent d-flex justify-content-between align-items-center py-3">
                   <?php if($featuredProperty->price_type == 'Cash') : ?>
                       <p class="fs-17 font-weight-bold text-heading mb-0">
-                      <?= number_to_currency($featuredProperty->price, 'PHP') ?></p>
+                      <?= number_to_currency($featuredProperty->price, 'PHP', 'fil-PH') ?></p> <!-- fil-PH is locale -->
                   <?php elseif($featuredProperty->price_type == 'Monthly'): ?>
                     <p class="fs-17 font-weight-bold text-heading mb-0">
-                        <?= number_to_currency($featuredProperty->price, 'PHP') ?>
+                        <?= number_to_currency($featuredProperty->price, 'PHP', 'fil-PH') ?> <!-- fil-PH is locale -->
                         <span class="text-gray-light font-weight-500 fs-14"> / month</span></p>
                   <?php elseif($featuredProperty->price_type == 'Contact'): ?>
                     <p class="fs-17 font-weight-bold text-heading mb-0">Contact Us</p>

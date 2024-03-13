@@ -159,6 +159,8 @@
                                                     <option value ="1">Featured</option>
                                                     <option value ="2">Foreclose</option>
                                                     <option value ="3">Private</option>
+                                                    <option value ="4">Pre-Selling</option>
+                                                    <option value ="5">RFO</option>
                                                 </select>
                                                 </div>
                                             </div>
@@ -310,29 +312,30 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="card mb-6">
-                                    <div class="card-body p-6">
-                                        <h3 class="card-title mb-0 text-heading fs-22 lh-15">Video
-                                        Option</h3>
-                                        <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit</p>
-                                        <div class="form-row mx-n2">
-                                        <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
-                                            <div class="form-group mb-md-0">
-                                            <label class="text-heading">Video
-                                                from Youtube</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
-                                            <div class="form-group mb-md-0">
-                                                <label for="embed_link" class="text-heading">Embed Video id</label>
-                                                <input type="text" name="embed_link"
-                                                        class="form-control form-control-lg border-0"
-                                                        id="embed_link">
-                                            </div>
-                                        </div>
+                                <div class="card-body p-6">
+                                    <h3 class="card-title mb-0 text-heading fs-22 lh-15">Video
+                                    Option</h3>
+                                    <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
+                                    adipiscing elit</p>
+                                    <div class="form-row mx-n2">
+                                    <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
+                                        <div class="form-group mb-md-0">
+                                        <label class="text-heading">Video
+                                            from Youtube</label>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-lg-12 col-xxl-6 px-2">
+                                        <div class="form-group mb-md-0">
+                                            <label for="embed_link" class="text-heading">Embed Video id</label>
+                                            <input type="text" name="embed_link"
+                                                    class="form-control form-control-lg border-0"
+                                                    id="embed_link">
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
+                                </div>
+                                
                             </div>
                             </div>
                             <div class="d-flex flex-wrap">
@@ -548,7 +551,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
-
 
 <script src="<?= base_url('theme/js/tinymce/tinymce.min.js'); ?>"></script>
 <script type="text/javascript">

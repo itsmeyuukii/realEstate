@@ -18,6 +18,7 @@ class Home extends BaseController
     {
         helper("form");
         helper("google");
+        helper("number");
         $this->homeModel = new HomeModel();
         $this->pModel = new PropertyModel();
         $this->fModel = new FavouriteModel();

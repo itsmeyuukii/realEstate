@@ -11,7 +11,7 @@
                 <div class="col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center">
                     <div class="d-flex form-group mb-0 align-items-center">
                         <label for="list_length" class="d-block mr-2 mb-0">Results:</label>
-                        <select name="list_length" id="list_length" aria-controls="seller-list"
+                        <select name="list_length" id="list_length" aria-controls="review-list"
                             class="form-control form-control-lg mr-2 selectpicker"
                             data-style="bg-white btn-lg h-52 py-2 border">
                             <option value="10" <?= ($perPage == 10) ? 'selected' : '' ?>>10</option>
@@ -37,14 +37,14 @@
                     </div>
                     <div class="align-self-center">
                         <button class="btn btn-danger btn-lg" tabindex="0"
-                            aria-controls="seller-list"><span>Delete</span></button>
+                            aria-controls="review-list"><span>Delete</span></button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="table-responsive">
-            <?php if (count($sellers) > 0): ?>
-                <table id="seller-list" class="table table-hover bg-white border rounded-lg">
+            <?php if (count($reviews) > 0): ?>
+                <table id="review-list" class="table table-hover bg-white border rounded-lg">
                     <thead>
                         <tr role="row">
                             <th class="no-sort py-6 pl-6"><label class="new-control new-checkbox checkbox-primary m-auto">
@@ -52,40 +52,41 @@
                                 </label>
                             </th>
                             <th class="py-6 text-center">Id</th>
-                            <th class="py-6 text-center">Seller Name</th>
-                            <th class="py-6 text-center">Title</th>
-                            <th class="py-6 text-center">Property type</th>
+                            <th class="py-6 text-center">Full Name</th>
+                            <th class="py-6 text-center">Agent Name</th>
+                            <th class="py-6 text-center">Email</th>
+                            <th class="py-6 text-center">Date</th>
                             <th class="no-sort py-6 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($sellers as $seller): ?>
+                        <?php foreach ($reviews as $review): ?>
                             <tr role="row">
                                 <td class="checkbox-column py-6 pl-6"><label
                                         class="new-control new-checkbox checkbox-primary m-auto">
                                         <input type="checkbox" class="new-control-input child-chk select-customers-info">
                                     </label></td>
                                 <td class="align-middle text-center"><a href="dashboard-preview-invoice.html"><span class="inv-number">
-                                            <?= $seller['id'] ?>
+                                            <?= $review['id'] ?>
                                         </span></a>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <?= $seller['full_name'] ?>
+                                    <?= $review['name'] ?>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <?= $seller['type'] ?>
+                                    <?= $review['agent'] ?>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <?= $seller['class'] ?>
+                                    <?= $review['created_at'] ?>
                                 </td>
                                 <td class="align-middle text-center">
-                                    <a href="<?= base_url('property-sell/view/' . $seller['id']) ?>"
+                                    <a href="<?= base_url('review-detail/' . $review['id']) ?>"
                                         data-toggle="tooltip" title="Edit"
                                         class="d-inline-block fs-18 text-muted hover-primary mr-5"><i
                                             class="fal fa-eye"></i></a>
                                     <a href="#" data-toggle="modal" data-target="#deleteConfirmationModal"
-                                        data-property-id="<?= $seller['id'] ?>"
-                                        class="delete-seller-btn d-inline-block fs-18 text-muted hover-primary">
+                                        data-property-id="<?= $review['id'] ?>"
+                                        class="delete-review-btn d-inline-block fs-18 text-muted hover-primary">
                                         <i class="fal fa-trash-alt"></i>
                                     </a>
                                 </td>
@@ -96,7 +97,7 @@
                 <?= $pager->makeLinks($page, $perPage, $total, 'pagination_view') ?>
                 <div class="mt-6 text-center">
                     Showing
-                    <?= (($page * $perPage) - $perPage + 1) . "-" . (($page * $perPage) - $perPage + count($seller)) ?>
+                    <?= (($page * $perPage) - $perPage + 1) . "-" . (($page * $perPage) - $perPage + count($review)) ?>
                     Result out of
                     <?= number_format($total) ?>
                 </div>
@@ -122,7 +123,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="<?= base_url('property-sell/delete/' . $seller['id']) ?>"
+                    <a href="<?= base_url('review/delete/' . $review['id']) ?>"
                         id="confirmDeleteButton" class="btn btn-danger">Delete</a>
                 </div>
             </div>

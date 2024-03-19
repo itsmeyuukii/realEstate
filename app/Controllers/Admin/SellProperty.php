@@ -66,6 +66,7 @@ class SellProperty extends Controller
         $sellerData = $this->sModel->where('id', $id)->get()->getRowArray();
 
         $data['sellerData'] = $sellerData;
+        $data['userdata'] = $this->dModel->getLoggedInUserData($logged_username);
         
 
         return view("admin/sellproperty/sell_property_view_detail", $data);

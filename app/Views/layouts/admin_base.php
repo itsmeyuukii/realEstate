@@ -159,6 +159,15 @@
                         <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold"></span>
                       </a>
                     </li>
+                    <li class="list-group-item px-3 px-xl-4 py-2 sidebar-item">
+                      <a href="<?=base_url('review-list') ?>" class="text-heading lh-1 sidebar-link d-flex align-items-center">
+                        <span class="sidebar-item-icon d-inline-block mr-3 text-muted fs-20">
+                          <i class="fal fa-question-circle"></i>
+                        </span>
+                        <span class="sidebar-item-text">Review List</span>
+                        <span class="sidebar-item-number ml-auto text-primary fs-15 font-weight-bold"></span>
+                      </a>
+                    </li>
                   </ul>
                 </li>
                 <li class="list-group-item pt-6 pb-4">

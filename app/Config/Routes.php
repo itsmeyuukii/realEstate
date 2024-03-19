@@ -31,6 +31,7 @@ $myroutes['admin/inquiries/delete/(:num)'] = 'Admin\ServicesInquiry::deleteInqui
 // Home
 $myroutes ['dashboard/login_activity'] = 'Admin\Dashboard::login_activity';
 $myroutes ['property/(:segment)'] = 'Home\Property::propertyDetails/$1';
+$myroutes ['review'] = 'Home\Review::index';
 
 
 //add to favourite
@@ -65,6 +66,10 @@ $myroutes ['sell-my-property'] = 'Home\SellProperty::index';
 $myroutes['property-sell'] = 'Admin\SellProperty::index';
 $myroutes['property-sell/view/(:num)'] = 'Admin\SellProperty::viewSeller/$1';
 $myroutes['property-sell/delete/(:num)'] = 'Admin\SellProperty::deleteSeller/$1';
+
+//Reviews
+$myroutes['review-list'] = 'Admin\Review::index';
+$myroutes['review-detail/(:num)'] = 'Admin\Review::viewReview/$1';
 
 //register routes USERS
 $myroutes ['register/activate/(:any)'] = 'Register::activate/$1';

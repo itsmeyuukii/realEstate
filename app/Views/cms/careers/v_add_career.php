@@ -7,23 +7,11 @@
 <main id="content" class="bg-gray-01">
     <div class="px-3 px-lg-6 px-xxl-13 py-5 py-lg-10 my-profile">
         <div class="mb-6">
-        <h2 class="mb-0 text-heading fs-22 lh-15">Add new property
+        <h2 class="mb-0 text-heading fs-22 lh-15">Add new Career
         </h2>
-        <p class="mb-1">Lorem ipsum dolor sit amet, consec tetur cing elit. Suspe ndisse suscipit</p>
         </div>
         <div class="collapse-tabs new-property-step">
-        <ul class="nav nav-pills border py-2 px-3 mb-6 d-none d-md-flex mb-6"
-            role="tablist">
-            <li class="nav-item col">
-                <a class="nav-link active bg-transparent shadow-none py-2 font-weight-500 text-center lh-214 d-block"
-                    id="description-tab" data-toggle="pill" data-number="1."
-                    href="#description"
-                    role="tab"
-                    aria-controls="description" aria-selected="true">
-                    <span class="number"></span> Add Career
-                </a>
-            </li>
-        </ul>
+        
         <?php if (session()->getTempdata('error')): ?>
             <div class="alert alert-danger">
                 <?= session()->getTempdata('error'); ?>
@@ -68,6 +56,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <div class="card mb-6">
+                                            <div class="card-body p-6">
+                                                <h3 class="card-title mb-0 text-heading fs-22 lh-15">Select Image</h3>
+                                                <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
+                                                adipiscing elit</p>
+                                                <div class="form-row mx-n2">
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6 px-2 mb-4 mb-md-0">
+                                                        <div class="form-group mb-0">
+                                                            <label for="p_status" class="text-heading">Career's Image</label>
+                                                            <input type="file" id="careerImage" name="careerImage" onchange="previewImage(this)">
+                                                            <img id="imagePreview" class="img-fluid mt-2" style="display: none;">
+                                                            <a type="button" id="removeImage" class="btn btn-danger mt-2" style="display: none;" onclick="removeImage()">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="card mb-6">
                                             <div class="card-body p-6">
@@ -100,6 +107,51 @@
 tinymce.init({
         selector: '#textcontent'
     });
+
+    function previewImage(input) {
+        var preview = document.getElementById('imagePreview');
+        var removeButton = document.getElementById('removeImage');
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+            removeButton.style.display = 'block';
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+            removeButton.style.display = 'none';
+        }
+    }
+
+    function removeImage() {
+        var preview = document.getElementById('imagePreview');
+        var removeButton = document.getElementById('removeImage');
+        var fileInput = document.getElementById('careerImage');
+
+        preview.src = '';
+        preview.style.display = 'none';
+        removeButton.style.display = 'none';
+        fileInput.value = ''; // Clear the file input
+    }
+
+    // Add image validation logic
+    document.querySelector('form').addEventListener('submit', function (event) {
+        var fileInput = document.getElementById('careerImage');
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (fileInput.files.length === 0 || !allowedExtensions.exec(fileInput.value)) {
+            alert('Please select a valid image file (jpg, jpeg, png, gif).');
+            event.preventDefault();
+            return false;
+        }
+    });
+    
 </script>
 
 <?= $this->endSection(); ?>

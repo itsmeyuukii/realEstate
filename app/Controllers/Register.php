@@ -52,26 +52,24 @@ class Register extends Controller
                     // to send email from gmail account change the value if needed
                 if ($this->registerModel->createUser($userdata)) {
                     $to = $this->request->getVar('email');
-                    $subject = 'Account Activation link - Test Link';
+                    $subject = 'Account Activation link';
                     $message = 'Hi '.$this->request->getVar('username', FILTER_SANITIZE_STRING).",<br><br>Thanks. Your account created"
                             . "succesfully. Please click the link below to activate your account:<br><br>"
                             . "<a href='".base_url()."register/activate/".$uniid."'>Activate Now</a><br><br>Thanks,<br>Team.";
 
                     $this->email->setTo($to);
-                    $this->email->setFrom('No-reply@msg-homes.com', 'Info');
-                    // $email->setCC();   //you can also use this
-                    // $email->setBCC();  //you can also use this
+                    $this->email->setFrom('no-reply@msg-homes.com', 'Info');
                     $this->email->setSubject($subject);
                     $this->email->setMessage($message);
                     $this->email->setMailType('html');
-                    // $filepath = 'public/assets/images/1.png';  //to attach file 
-                    // $email->attach($filepath);
-                    if ($this->email->send()) {
-                        echo "Account Created successfully: Please Activate your Account";
-                    } else {
-                        $data = $this->email->printDebugger(['headers']);
-                        print_r($data);
+                    $emailSent = $this->email->send();
+                    if ($emailSent) {
+                        echo "Please Activate your account";
                     }
+                    else {
+                        echo "Email Not successfully sent";
+                    }
+
                         //to set templatet success variable to temporary session that is set to expire after 3 seconds
                     $this->session->setTempdata('success', 'Account Created Successfully, Please activate your account', 3);
                     return redirect()->to(current_url());

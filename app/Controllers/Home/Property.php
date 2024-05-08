@@ -104,6 +104,10 @@ class Property extends Controller
         $data['basUrl'] = base_url();
         $data['is_logged_in'] = $this->session->get('logged_user') ? true : false;
 
+        $data['seo'] = "filtered-result/{$listType}/property-type:{$pType}/location:{$loc}/price:{$price}";
+        $page_id = 4;
+        $data['page_title'] = $this->hModel->getPageTitle($page_id);
+
         return view("home/v_propertyList", $data);
     }
 
@@ -141,6 +145,8 @@ class Property extends Controller
         $data['googleButton'] = generateGoogleButton($this->googleClient);
         $data['is_logged_in'] = $this->session->get('logged_user') ? true : false;
         $data['favourites'] = $favourites;
+
+        $data['seo'] = $properties;
 
         return view("home/v_property_detail", $data);
     }

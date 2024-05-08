@@ -26,9 +26,9 @@ Msg-Homes | Home
                 <!-- <li class="list-inline-item">
                 <a href="#" class="badge bg-gray-01 letter-spacing-1 text-body bg-hover-accent px-2">Creative</a>
                 </li> -->
-                <li class="list-inline-item">
+                <!-- <li class="list-inline-item">
                 <a href="#" class="badge bg-gray-01 letter-spacing-1 text-body bg-hover-accent px-2">ForeClosed Properties</a>
-                </li>
+                </li> -->
             </ul>
             <h2 class="fs-md-32 text-heading lh-141 mb-6 mxw-670 text-center">
                 <?= $blog->title ?>
@@ -41,15 +41,20 @@ Msg-Homes | Home
                 <!-- <li class="list-inline-item mr-4"><i class="far fa-eye mr-1"></i> 149 views</li> -->
             </ul>
             <img class="mb-9" src="<?= $base_url . $blog->image_path ?>"
-                alt="Ten Benefits Of Rentals That May Change Your Perspective">
+                alt="blog-image-post">
+
+              <?php if($blog->custom == 'yes') : ?>
+                <?= $blog->description ?>
+              <?php else :?>
             <div class="mxw-751">
             <div class="lh-214 mb-9">
-              <p><?= $blog->description ?></p>
+              <?= $blog->description ?>
               <!-- <p class="ml-8 pl-4 fs-16 text-heading font-weight-500 lh-2 border-left border-4x border-primary mxw-521 my-6">
                 GrandHome is an estate agency that
                 helps people live in more thoughtful and
                 beautiful ways. We believe in design as a powerful force for good.</p> -->
             </div>
+            <?php endif; ?>
             <div class="row pb-7 mb-6 border-bottom">
               <div class="col-sm-6 d-flex">
                 <span class="d-inline-block mr-2"><i class="fal fa-tags"></i></span>

@@ -26,7 +26,23 @@ Msg-Homes | Home
                 </div>
                 <?php if(count($careers) > 0) : ?>
                 <?php foreach($careers as $career) : ?>
-                <div class="card p-2 border-0 mb-4 d-block">
+                <div class="col-sm-6 col-lg-4 mb-6">
+                    <div class="card border-hover shadow-hover-lg-1 px-7 pb-6 pt-4 h-100 bg-transparent bg-hover-white">
+                        <div class="card-img-top d-flex align-items-end justify-content-center">
+                            <span class="text-primary fs-90 lh-1">
+                                <?=$career->image ?>
+                            </span>
+                        </div>
+                        <div class="card-body px-0 pt-6 text-center pb-5 pb-lg-0">
+                            <h4 class="card-title fs-18 lh-17 text-dark mb-2">Titling Services</h4>
+                            <p class="card-text px-2">
+                                Seamless Titling Solutions: Your Partner in Hassle-Free Property Ownership!
+                            </p>
+                            <a href="#" class="btn btn-primary read-more" data-toggle="modal" data-target="#modalTitlingServices">Readmore</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="card p-2 border-0 mb-4 d-block">
                     <div class="row no-gutters">
                         <div class="col-sm-12 pr-0 pr-sm-1">
                             <a href="#" class="card-title d-block fs-large-5 lh-2 text-primary font-weight-500 mb-0 text-center">
@@ -41,7 +57,7 @@ Msg-Homes | Home
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <?php endforeach; ?>
                 <?php else: ?>
                 <div>

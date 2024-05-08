@@ -62,6 +62,7 @@ class Blog extends Controller
         }
         // Check if the user is logged in
         $logged_username = $this->session->get('logged_user');
+        $data['userdata'] = $this->dModel->getLoggedInUserData($logged_username);
         $adminLevel = $this->rModel->where('username', $logged_username)->first();
         
         //check level of security
@@ -76,30 +77,29 @@ class Blog extends Controller
             $validationRules = [
                 'title' => 'required',
                 'description' => 'required',
-                'blogImage' => 'uploaded[blogImage]|mime_in[blogImage,image/jpg,image/jpeg,image/png,image/gif]|max_size[blogImage,1024]',
+                'blogImage' => 'required',
             ];
 
-            if ($this->validate($validationRules)) {
                 // Handle image upload
                 $image = $this->request->getFile('blogImage');
                 $imageName = $image->getRandomName();
                 $image->move('public/uploads/blog_images', $imageName);
 
                 $data = [
-                    'title' => $this->request->getPost('title'),
-                    'description' => $this->request->getPost('description'),
+                    'title' => $this->request->getVar('title'),
+                    'description' => $this->request->getVar('description'),
                     'image_path' => 'public/uploads/blog_images/' . $imageName,
                 ];
                 $this->bModel->insert($data);
 
                 return redirect()->to(site_url('cms/blog/list'))->with('success', 'Blog added successfully');
-            } else {
-                // Validation failed, show errors
-                $data['validation'] = $this->validator;
-            }
+        } else {
+            // Validation failed, show errors
+            $data['validation'] = $this->validator;
         }
+        
 
-        return view('cms/blog/v_addblog');
+        return view('cms/blog/v_addblog', $data);
     }
     public function updateBlog($id)
     {

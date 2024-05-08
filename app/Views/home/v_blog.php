@@ -21,7 +21,7 @@ Msg-Homes | Home
         <div class="container">
             <div class="row ml-xl-0 mr-xl-n6">
                 <div class="col-lg-8 mb-8 mb-lg-0 pr-xl-6 pl-xl-0">
-                    <?php foreach($blogs as $blog) ?>
+                    <?php foreach($blogs as $blog): ?>
                     <div class="card border-0 pb-6 mb-6 border-bottom">
                         <div class="position-relative d-flex align-items-end card-img-top">
                             <a href="<?= base_url('blog-detail/') . $blog['slugs'] ?>" class="hover-shine d-block">
@@ -54,6 +54,7 @@ Msg-Homes | Home
                                     class="fad fa-share-alt text-primary"></i></a>
                         </div>
                     </div>
+                    <?php endforeach ?>
                     
                     <?= $pager->makeLinks($page, $perPage, $total, 'pagination_view') ?>
                 </div>

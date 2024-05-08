@@ -57,6 +57,7 @@ class Careers extends Controller
     }
     public function addCareer()
     {
+        
         //check if theres a logged user
         if (!$this->session->get('logged_user')) {
             return redirect()->to(base_url());
@@ -82,11 +83,16 @@ class Careers extends Controller
 
             if ($this->validate($validationRules)) {
 
+                $image = $this->request->getFile('careerImage');
+                $imageName = $image->getRandomName();
+                $image->move('public/uploads/carreer_images', $imageName);
+
                 $data = [
                     'title' => $this->request->getPost('title'),
                     'description' => $this->request->getPost('description'),
+                    'image_path' => 'public/uploads/carreer_images/' . $imageName,
                 ];
-                $this->careerModel->insert($data);
+                $this->bModel->insert($data);
 
                 return redirect()->to(site_url('cms/aboutus/careers'))->with('success', 'Career added successfully');
             } else {

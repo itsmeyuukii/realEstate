@@ -2,15 +2,18 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\Admin\TotalViewModel;
 use \CodeIgniter\Controller;
 use App\Models\Admin\AdminDashboardModel;
 
 class Dashboard extends Controller
 {
-    public $dModel;
+    protected $dModel;
+    protected $tvModel;
     public function __construct()
     {
         $this->dModel = new AdminDashboardModel;
+        $this->tvModel = new TotalViewModel;
     }
     public function index()
     {
@@ -29,10 +32,23 @@ class Dashboard extends Controller
 
         
         $data['userdata'] = $this->dModel->getLoggedInUserData($username);
+        $data['monthlyViews'] = $this->prepareMonthlyViewsData();
+        $data['monthsArray'] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-        return view('admin/dashboard_view', $data);
-        
-        
+        return view('admin/dashboard_view', $data); 
+    }
+    private function prepareMonthlyViewsData()
+    {
+        $monthlyData = $this->tvModel->getTotalViewsByMonth();
+        $monthlyViews = array_fill(0, 12, 0); // Initialize all months to 0 views
+
+        // Populate the data for each month from the database results
+        foreach ($monthlyData as $data) {
+            $index = (int) $data['month'] - 1; // Convert month to zero-index
+            $monthlyViews[$index] = (int) $data['total_views'];
+        }
+
+        return $monthlyViews;
     }
 
     public function logout()

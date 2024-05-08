@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="One of the Best Broker in Phillipines" >
     <meta name="description" content="My Saving Grace Realty & Development Corporation">
+    <?php if(isset($seo)) : ?>
+        <?php if (isset($seo->slug)) : ?>
+            <meta name="keywords" content="<?= $seo->slug ?>">
+        <?php else : ?>
+            <meta name="keywords" content="<?= htmlspecialchars($seo) ?>">
+        <?php endif; ?>
+     <?php endif; ?>
+    
     <meta name="author" content="Gerard">
     <meta name="generator" content="Jekyll">
     <title><?= $this->renderSection("title"); ?></title>

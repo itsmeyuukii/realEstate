@@ -1,7 +1,7 @@
 <?php echo $this->extend("layouts/home_base"); ?>
 
 <?php echo $this->section("title"); ?>
-Msg-Homes | Home
+    <?= $page_title->page_title ?>
 <?php echo $this->endSection(); ?>
 
 <?= $this->section("content"); ?>

@@ -64,6 +64,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <div class="card mb-6">
+                                            <div class="card-body p-6">
+                                                <h3 class="card-title mb-0 text-heading fs-22 lh-15">Select Category</h3>
+                                                <p class="card-text mb-5">Lorem ipsum dolor sit amet, consectetur
+                                                adipiscing elit</p>
+                                                <div class="form-row mx-n2">
+                                                    <div class="col-md-6 col-lg-12 col-xxl-6 px-2 mb-4 mb-md-0">
+                                                        <div class="form-group mb-0">
+                                                            <label for="careerImage" class="text-heading">Blog's Image</label>
+                                                            <input type="file" id="careerImage" name="careerImage" onchange="previewImage(this)">
+                                                            <img id="imagePreview" class="img-fluid mt-2" style="display: none; height: 100px;">
+                                                            <a type="button" id="removeImage" class="btn btn-danger mt-2" style="display: none;" onclick="removeImage()">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="card mb-6">
                                             <div class="card-body p-6">
@@ -94,6 +113,63 @@
 <script>
     tinymce.init({
         selector: '#textcontent'
+    });
+
+    function previewImage(input) {
+        var preview = document.getElementById('imagePreview');
+        var removeButton = document.getElementById('removeImage');
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+            removeButton.style.display = 'block';
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+            removeButton.style.display = 'none';
+        }
+    }
+
+    function removeImage() {
+        var preview = document.getElementById('imagePreview');
+        var removeButton = document.getElementById('removeImage');
+        var fileInput = document.getElementById('careerImage');
+
+        preview.src = '';
+        preview.style.display = 'none';
+        removeButton.style.display = 'none';
+        fileInput.value = ''; // Clear the file input
+    }
+
+    // Add image validation logic
+    document.querySelector('form').addEventListener('submit', function (event) {
+        var fileInput = document.getElementById('careerImage');
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        // if (fileInput.files.length === 0 || !allowedExtensions.exec(fileInput.value)) {
+        //     alert('Please select a valid image file (jpg, jpeg, png, gif).');
+        //     event.preventDefault();
+        //     return false;
+        // }
+    });
+
+    // Check if there is an existing image path and display it
+    document.addEventListener('DOMContentLoaded', function () {
+        var existingImagePath = "<?= $imagePath . $blog['image_path'] ?>";
+        var preview = document.getElementById('imagePreview');
+        var removeButton = document.getElementById('removeImage');
+
+        if (existingImagePath) {
+            preview.src = existingImagePath;
+            preview.style.display = 'block';
+            removeButton.style.display = 'block';
+        }
     });
 </script>
 

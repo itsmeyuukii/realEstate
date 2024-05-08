@@ -60,6 +60,9 @@ $myroutes ['blog'] = 'Home\Blog::index';
 $myroutes ['blog-detail/(:segment)'] = 'Home\Blog::blogDetail/$1';
 $myroutes ['email-sub'] = 'Home\EmailSubs::index';
 
+//custom Blog
+$myroutes ['blog/first-article'] = 'Home\Blog::firstArticle';
+
 
 //sell my property
 $myroutes ['sell-my-property'] = 'Home\SellProperty::index';
@@ -83,6 +86,9 @@ $myroutes ['loginwithfb'] = 'Login::loginWithGoogle';
 // admin routes
 $myroutes ['admin/dashboard'] = 'Admin\Dashboard::index';
 $myroutes ['dashboard/logout'] = 'Admin\Dashboard::logout';
+
+$myroutes ['admin/totalviews'] = 'Admin\DashboardDetails::totalviews';
+
 
 //CMS
 $myroutes['cms'] = 'Cms\HomeContent::index';

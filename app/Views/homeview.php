@@ -8,8 +8,7 @@
 
 <main id="content">
       <section class="d-flex flex-column">
-        <div style="background-image: url(<?= base_url('theme/images/bg-home-01.jpg') ?>)"
-              class="bg-cover d-flex align-items-center custom-vh-100">
+        <div class="custom-home-background bg-cover d-flex align-items-center custom-vh-100">
           <div class="container pt-lg-15 py-8" data-animate="zoomIn">
             <p class="text-white fs-md-22 fs-18 font-weight-500 letter-spacing-367 mb-6 text-center text-uppercase">Let
               us guide your home</p>
@@ -320,9 +319,9 @@
               <div class="card shadow-hover-2" data-animate="zoomIn">
                 <div class="hover-change-image bg-hover-overlay rounded-lg card-img-top">
                   <?php if($featuredProperty->image_link): ?>
-                    <img src="<?= $featuredProperty->image_link ?>" alt="MSG Property" style="max-height: 216px; width: 100%;">
+                    <img src="<?= $featuredProperty->image_link ?>" alt="MSG Property" style="max-height: 216px; width: 100%;" loading="lazy">
                   <?php else: ?>
-                    <img src="<?= base_url('theme/images/alt/property-default.png') ?>" alt="MSG Property" style="max-height: 216px; width: 100%;">
+                    <img src="<?= base_url('theme/images/alt/property-default.png') ?>" alt="MSG Property" style="max-height: 216px; width: 100%;" loading="lazy">
                   <?php endif; ?>
                   <div class="card-img-overlay p-2 d-flex flex-column">
                     <div>

@@ -16802,6 +16802,8 @@ a.text-indigo:hover, a.text-indigo:focus {
   }
   .main-header.header-mobile-xl .sticky-logo {
     display: inline-block;
+    height: 33px;
+    width: 157px;
   }
   .main-header.header-mobile-xl .normal-logo {
     display: none !important;
@@ -22902,4 +22904,89 @@ button:focus {
 .img-custom {
   position: relative;
   height: auto;
+}
+
+.img-box-article {
+  position: relative;
+  overflow: hidden;
+  height: 23rem;
+  padding: 1rem;
+  margin: 2rem 0 0 3rem;
+}
+
+.img-box-article img {
+  transform: scaleX(2);
+  height: 100%;
+}
+
+.brief-history-box {
+  position: relative;
+  margin-right: 3rem;
+}
+
+.section-4-img-box {
+  position: relative;
+  float: right;
+  overflow: hidden;
+  padding: 0 2rem 0 2rem;
+}
+
+.commitment-img-box {
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+  position: relative;
+  overflow: hidden;
+  max-height: 28rem;
+}
+
+.commitment-img-box img {
+  max-width: 100%; /* Ensure image does not exceed container width */
+  max-height: 100%; /* Ensure image does not exceed container height */
+}
+
+@media (max-width: 768px) {
+  .brief-history-box {
+    margin: 0 2rem 0 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .img-box-article {
+    margin: 0 2rem 2rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .ceo-bg-md {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .ceo-bg-sm {
+    display: none;
+  }
+}
+
+.mxw-851 {
+  max-width: 951px;
+  margin: 0 auto;
+}
+
+.custom-home-background {
+  background-image: url('../images/bg-home-01.jpg'); /* Update the path accordingly */
+}
+/* Media query for tablets */
+@media (max-width: 768px) {
+  .custom-home-background {
+      background-image: url('../images/bg-tablet.webp'); /* Path to the tablet background image */
+  }
+}
+
+/* Media query for mobiles */
+@media (max-width: 480px) {
+  .custom-home-background {
+      background-image: url('../images/bg-mobile.webp'); /* Path to the mobile background image */
+  }
 }

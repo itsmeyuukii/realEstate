@@ -44,9 +44,11 @@ Welcome
                             <div class="col-5">
                                 <span
                                     class="w-83px h-83 d-flex align-items-center justify-content-center fs-36 badge badge-green badge-circle">
+                                    <a href="<?= base_url('admin/totalviews')?>">
                                     <svg class="icon icon-2">
                                         <use xlink:href="#icon-2"></use>
                                     </svg>
+                                    </a>
                                 </span>
                             </div>
                             <div class="col-7 text-center">

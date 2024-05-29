@@ -16,7 +16,23 @@ class App extends BaseConfig
      *
      *    http://example.com/
      */
-    public string $baseURL = 'http://localhost/ci4_cms';
+    // Get the current protocol (http or https)
+    // Base URL property
+    //public string $baseUrl = "http://localhost/realEstate"; This is the Original Code I just modify this so that it Dynamically sett the domain name
+    public string $baseURL;
+
+    // Constructor to set the base URL dynamically
+    public function __construct()
+    {
+        // Get the current protocol (http or https)
+        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+
+        // Get the current domain
+        $domain = $_SERVER['HTTP_HOST'];
+
+        // Set the base URL dynamically
+        $this->baseURL = $protocol . "://" . $domain . '/realEstate';
+    }
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.

@@ -17,35 +17,99 @@ Msg-Homes | Home
     </section>
 
     <section class="pt-8 pb-13 bg-gray-01">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 mb-6 mb-lg-0 order-0 order-lg-1">
-                <div class="text-center text-primary my-4">
-                    <h1>Our Company</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 mb-6 mb-lg-0 order-0 order-lg-1">
+                    <div class="text-center text-primary my-4">
+                        <h1>Our Company</h1>
+                    </div>
                 </div>
-                <div class="card p-2 border-0 mb-4 d-block">
-                    Welcome to <span style="color: #fa3b11;">My Saving Grace Realty and Development Corporation (MSGRDC)</span>, where we’ve redefined the landscape of Real Estate Brokerage, all by God’s Grace! Founded in 2013 in the Philippines, MSGRDC is not just a real estate company, it is a testament to innovative thinking and a business model built on the divine principle of God’s grace.</br>
+            </div>
+            <div class="row align-items-center about-us-section">
+                <div class="col-md-6 ml-md-10 mx-5">
+                    <h1 class="text-dark">ABOUT US</h1>
+                    <p class="text-dark text-justify mt-3">
+                        Founded in 2013 in the Phillipines, My Saving Grace Realty and Development Corporation
+                        (MSGRDC) has redefined real estate brokerage throught innovation and divine grace.
+                        As a leading brokerage firm in the Phillipines, our core team boasts over 30 years of
+                        experience in the industry.
+                    </p>
+                </div>
+            </div>
+            <div class="pt-10 mx-0">
+                <h1 class="text-dark mb-8">Get to Know Us</h1>
+                <div class="row">
+                    <div class="col-md-6 mx-0 d-flex justify-content-center">
+                        <div class="know-img-box">
+                            <img src="<?= base_url('theme/images/about-us/know.jpg') ?>" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mx-5 text-justify">
+                            We offer over 20,000 listings of foreclosed properties and are accredited by all major banks and developers
+                            in the Phillipines. Our portfolio also include more that 40 properties in Palawan, ranging from residential
+                            and beach lots to agricultural, commercial lots along the highway, and even islands.
 
-<div class="fs-25 text-primary"><b>Our Unique Approach</b></div>
-
-At MSGRDC, we believe in transforming how real estate brokerage works, and we owe our success entirely to God’s grace. Led by our founder, Mr. Ramil Alquileta, a visionary with a mission, a seasoned real estate broker with over 30 years of experience and more than two decades as a license broker, we have carved our path in the industry.</br>
-
-<div class="fs-25 text-primary"><b>Innovative Business Model</b></div>
-
-Our innovative business model is founded on the principles of integrity grace, and the relentless pursuit of excellence. We take pride in helping property seekers, investors, and sales performers reach new heights, offering end-to-end real estate services that cover every aspect of the transaction process.</br>
-
-<div class="fs-25 text-primary"><b>Empowering your success</b></div>
-
-Our commitment to your success goes beyond traditional real estate services. We provide and environment where your earning potential knows no bounds. With comprehensive marketing support, unlimited listings, and ongoing training, we equip you with the tools and techniques to thrive in the dynamic world of real estate.</br>
-
-<div class="fs-25 text-primary"><b>Palawan Paradise</b></div>
-
-In 2022, we expanded our offerings to cater to investors seeking their own piece of paradise in Palawan. This expansion is a testament to our dedication to providing diverse and tailored solutions to our clients, ensuring that they can find their dream property in one of the beautiful locations in the world.</br>
-
+                            At MSGRDC, we provide comprehensive real estate services helping properly seekers, investors and sales profesionals
+                            achieve new hieghts. Our commitment to excellence ensures our clients find their dream properties in some of the world's
+                            most beautiful locations.
+                            
+                            We are more than just a real estate company, we are a testament to the power of grace and innovation in driving success.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 my-0 bg-primary about-properties">
+                <div class="row justify-content-center pt-5">
+                    <h1 class="text-white mt-5">Available Properties</h1>
+                </div>
+                <div class="row mx-0 py-5">
+                    <div class="col-md-3 d-flex">
+                        <div class="about-card">
+                            <img src="<?= base_url('theme/images/about-us/1.jpg') ?>" alt="<?= base_url('theme/images/about-us/default-image.jpg') ?>">
+                            <h6 class="my-3">FORECLOSED PROPERTIES</h6>
+                            <p class="mx-5 fs-14 mb-5 text-center">
+                                We offer a variety of foreclosed properties, including land, houses, and condominiums from 
+                                various banks. These properties provide excellent investment oppurtunities or comprehensive
+                                prices below market value.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex">
+                        <div class="about-card">
+                            <img src="<?= base_url('theme/images/about-us/2.jpg') ?>/" alt="<?= base_url('theme/images/about-us/default-image.jpg') ?>">
+                            <h6 class="my-3">Property Re-sale</h6>
+                            <p class="mx-5 fs-14 mb-5 text-center">
+                                We offer a range of resale properties and take pride in helping property owners and investors
+                                reach new heights. Benefit from comprehensive marketing suport, unlimited listings maximize
+                                earning potential in real estate.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex">
+                        <div class="about-card">
+                            <img src="<?= base_url('theme/images/about-us/3.jpg') ?>/" alt="<?= base_url('theme/images/about-us/default-image.jpg') ?>">
+                            <h6 class="my-3">PROPERTY PRE-SELLING</h6>
+                            <p class="mx-5 fs-14 mb-5 text-center">
+                                Accredited by all major developers in the Philippines, we offer a variety of properties, including
+                                houses, land, and condominiums. Our offerings extend beyond Metro Manila to top destinations like
+                                Boracay and Palawan.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex">
+                        <div class="about-card">
+                            <img src="<?= base_url('theme/images/about-us/4.jpg') ?>/" alt="<?= base_url('theme/images/about-us/default-image.jpg') ?>">
+                            <h6 class="my-3">PALAWAN PROPERTIES</h6>
+                            <p class="mx-5 fs-14 mb-5 text-center">
+                                We offer a dirverse range of properties in Palawan, including residential and beach lots,
+                                agricultural land, commercial lots along the highway, and even islands.
+                            </p>
+                        </div>
+                    </div> 
                 </div>
             </div>
         </div>
-    </div>
     </section>
 </main>
 
